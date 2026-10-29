@@ -1,0 +1,27 @@
+{
+  "name": "snownight-site",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "fetch": "node --experimental-strip-types --no-warnings=ExperimentalWarning scripts/fetch-sheet.ts",
+    "data": "node --experimental-strip-types --no-warnings=ExperimentalWarning scripts/build-data.ts",
+    "test": "node --experimental-strip-types --no-warnings=ExperimentalWarning --test \"test/**/*.test.ts\"",
+    "dev": "astro dev",
+    "build": "astro build",
+    "build:all": "npm run fetch && npm run data && astro build",
+    "preview": "astro preview",
+    "check": "astro check"
+  },
+  "dependencies": {
+    "astro": "7.3.8",
+    "google-auth-library": "11.3.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.10",
+    "@types/node": "22.18.0",
+    "typescript": "6.0.3"
+  }
+}

@@ -1,0 +1,186 @@
+---
+import Base from '../../layouts/Base.astro';
+import ProgramCard from '../../components/ProgramCard.astro';
+import type { Program } from '../../lib/schema.ts';
+import {
+  CRITERIA, DEPTH_HELP, byDeadline, deadlineLabel, longDate, programs, url,
+} from '../../lib/format.ts';
+
+export function getStaticPaths() {
+  return programs.map((p) => ({ params: { id: String(p.id) }, props: { program: p } }));
+}
+
+const { program: p } = Astro.props as { program: Program };
+const closed = p.status === 'closed';
+const dl = deadlineLabel(p);
+const applyUrl = p.officialUrl ?? p.sourceUrl;
+// 「公式で確認」なら出典そのものが主催者のページ
+const sourceIsOfficial = p.confirm === '公式で確認' && (!p.officialUrl || p.officialUrl === p.sourceUrl);
+const hasOfficial = Boolean(p.officialUrl) || sourceIsOfficial;
+const host = (u: string) => {
+  const { hostname, pathname } = new URL(u);
+  return `${hostname}${pathname.length > 1 ? pathname : ''}`;
+};
+const similar = programs
+  .filter((x) => x.id !== p.id && x.category === p.category && x.status !== 'closed')
+  .sort(byDeadline)
+  .slice(0, 3);
+
+const rows: [string, string | undefined][] = [
+  ['対象', p.target],
+  ['期間・日程', p.period],
+  [closed ? '前回の締切' : '締切', p.deadlineText],
+  ['費用', p.cost],
+  ['実施場所', [p.area, p.region].filter(Boolean).join(' ／ ')],
+  ['選考', p.selection],
+  ['応募の方法', p.route ?? undefined],
+];
+const description = `${p.organizer}。${p.target}`.slice(0, 120);
+---
+<Base title={p.name} description={description}>
+  <nav class="crumbs" aria-label="パンくずリスト">
+    <a href={url('/')}>トップ</a><span aria-hidden="true">/</span>
+    <a href={url('/search/')}>さがす</a><span aria-hidden="true">/</span>
+    <span aria-current="page">{p.name}</span>
+  </nav>
+
+  <main class="layout">
+      <div class="head">
+        <div class="badges">
+          <span class={`tag cat-${p.category}`}>{p.category}</span>
+          {p.tags.map((t) => <span class="tag tag-outline">{t}</span>)}
+          <span class={`tag depth-${p.depth}`}>体験の形：{p.depth}</span>
+          <span class={`tag confirm-${p.confirm}`}>{p.confirm}</span>
+          {p.needsRecheck && <span class="tag recheck">要再確認</span>}
+        </div>
+        <h1>{p.name}</h1>
+        <p class="sub">主催：{p.organizer}</p>
+      </div>
+
+      <div class="panel side apply">
+        <span class={`deadline is-${dl.tone}`}>
+          {p.status === 'open' ? `締切 ${longDate(p.deadline!)}` : dl.text}
+        </span>
+        <a class="btn btn-primary" href={applyUrl} target="_blank" rel="noopener noreferrer">
+          {hasOfficial ? '公式サイトで詳しく見る' : '情報のもとのページを見る'}
+        </a>
+        <p class="small">外部サイトが開きます。申し込みは主催者のページで行います。</p>
+      </div>
+
+      <div class="content">
+
+      {closed && (
+        <p class="notice">
+          この募集は終了しています。次の募集の時期を見通せるよう、前回の情報を参考として掲載しています。
+        </p>
+      )}
+      {p.needsRecheck && (
+        <p class="notice warn">
+          最後の確認から90日以上たっています。内容が変わっている可能性があるので、必ず公式の情報を確認してください。
+        </p>
+      )}
+
+      <section class="panel">
+        <h2>参加の条件</h2>
+        <dl>
+          {p.grades.length > 0 && (
+            <>
+              <dt>対象学年</dt>
+              <dd class="grades">{p.grades.map((g) => <span class="tag tag-outline">{g}</span>)}</dd>
+            </>
+          )}
+          {rows.map(([label, value]) => (
+            <>
+              <dt>{label}</dt>
+              <dd>{value || '記載なし'}</dd>
+            </>
+          ))}
+        </dl>
+        <p class="small">「記載なし」は、確認した情報のなかに書かれていなかったという意味です。</p>
+      </section>
+
+      <section class="panel" id="depth">
+        <h2>体験の形：{p.depth}</h2>
+        <p class="lead">{DEPTH_HELP[p.depth]}</p>
+        <ul class="criteria">
+          {CRITERIA.map(([key, label]) => {
+            const v = p.depthCriteria[key] ?? '未入力';
+            return <li><span>{label}</span><span class={`yn yn-${v}`}>{v}</span></li>;
+          })}
+        </ul>
+        <a class="link" href={url('/about/#depth')}>体験の形の決め方</a>
+      </section>
+      </div>
+
+      <div class="panel side source">
+        <h2 class="side-title">情報のもと</h2>
+        <a class="link url" href={p.sourceUrl} target="_blank" rel="noopener noreferrer">{host(p.sourceUrl)}{sourceIsOfficial && '（公式）'}</a>
+        {p.officialUrl && p.officialUrl !== p.sourceUrl && (
+          <a class="link url" href={p.officialUrl} target="_blank" rel="noopener noreferrer">{host(p.officialUrl)}（公式）</a>
+        )}
+        {p.lastChecked && <span class="small">最終確認：{longDate(p.lastChecked)}</span>}
+        <span class={`tag confirm-${p.confirm}`} style="align-self:flex-start">{p.confirm}</span>
+        <a class="link" href={url('/about/#confirm')}>確認の区分について</a>
+      </div>
+  </main>
+
+  {similar.length > 0 && (
+    <section class="section">
+      <h2>同じ種類の項目</h2>
+      <div class="grid">{similar.map((s) => <ProgramCard program={s} compact />)}</div>
+    </section>
+  )}
+</Base>
+
+<style>
+  .crumbs { padding: 24px var(--gutter) 0; font-size: 13px; color: var(--muted); display: flex; flex-wrap: wrap; gap: 8px; }
+  .crumbs a { color: var(--accent); }
+  /* 広い画面は右に申し込み・情報のもと、狭い画面は見出しのすぐ下に申し込み */
+  .layout {
+    padding: 24px var(--gutter) 16px; display: grid; gap: 24px 32px; align-items: start;
+    grid-template-columns: minmax(0, 1fr) 320px;
+    grid-template-areas: 'head apply' 'content apply' 'content source' 'content .';
+  }
+  @media (max-width: 960px) {
+    .layout { grid-template-columns: minmax(0, 1fr); grid-template-areas: 'head' 'apply' 'content' 'source'; }
+  }
+  .head { grid-area: head; }
+  .apply { grid-area: apply; }
+  .content { grid-area: content; min-width: 0; display: flex; flex-direction: column; gap: 24px; }
+  .source { grid-area: source; }
+  .head { display: flex; flex-direction: column; gap: 14px; }
+  .badges { display: flex; flex-wrap: wrap; gap: 8px; }
+  h1 { font-size: 30px; line-height: 1.45; }
+  @media (max-width: 720px) { h1 { font-size: 23px; } }
+  .sub { font-size: 15px; color: var(--muted); }
+  .notice { background: #e3e7ef; border-radius: 10px; padding: 14px 18px; font-size: 14px; line-height: 1.8; }
+  .notice.warn { background: #fbe0dc; color: #6e1a0f; }
+  .panel {
+    background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 28px; display: flex; flex-direction: column; gap: 12px;
+  }
+  @media (max-width: 720px) { .panel { padding: 20px; } }
+  .panel h2 { font-size: 20px; }
+  dl { margin: 0; display: grid; grid-template-columns: minmax(96px, 150px) 1fr; }
+  dt, dd { padding: 14px 0; border-top: 1px solid #e6e9ef; }
+  dt { font-size: 14px; font-weight: 700; padding-right: 12px; }
+  dd { margin: 0; font-size: 15px; line-height: 1.75; overflow-wrap: anywhere; }
+  @media (max-width: 560px) {
+    dl { grid-template-columns: 1fr; }
+    dt { padding-bottom: 0; }
+    dd { border-top: 0; padding-top: 4px; }
+  }
+  .grades { display: flex; flex-wrap: wrap; gap: 6px; }
+  .small { font-size: 12px; line-height: 1.7; color: var(--muted); }
+  .lead { font-size: 15px; color: var(--ink-2); }
+  .criteria { list-style: none; margin: 0; padding: 0; }
+  .criteria li { display: flex; justify-content: space-between; gap: 12px; padding: 12px 0; border-top: 1px solid #e6e9ef; font-size: 15px; }
+  .yn { font-weight: 700; }
+  .yn-あり { color: #0b5d4b; }
+  .yn-不明, .yn-未入力 { color: var(--muted-2); }
+  .link { font-size: 14px; color: var(--accent); }
+  .side { padding: 24px; }
+  .side .deadline { font-size: 14px; }
+  .side-title { font-size: 15px; }
+  .url { overflow-wrap: anywhere; }
+</style>

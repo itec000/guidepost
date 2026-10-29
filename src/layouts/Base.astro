@@ -1,0 +1,74 @@
+---
+import '../styles/global.css';
+import { SITE_NAME, generatedOn, slashDate, url } from '../lib/format.ts';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+const { title, description = '高校生のための探究・体験情報。コンテスト、大学のプログラム、インターン、ボランティアを、出典と確認日つきで掲載しています。' } = Astro.props;
+const fullTitle = title ? `${title} | ${SITE_NAME}（仮称）` : `${SITE_NAME}（仮称）`;
+const path = Astro.url.pathname;
+const nav = [
+  ['/search/', 'さがす'],
+  ['/search/?sort=deadline', '締切が近い'],
+  ['/about/', 'このサイトについて'],
+] as const;
+---
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta name="theme-color" content="#17233b" />
+  </head>
+  <body>
+    <!-- ヘッダー・フッターの背景は画面いっぱい、中身は本文と同じ幅にそろえる -->
+    <header class="site-header">
+      <div class="bar">
+        <a class="logo" href={url('/')}>{SITE_NAME}<span>（仮称）</span></a>
+        <nav aria-label="メインメニュー">
+          {nav.map(([href, label]) => (
+            <a href={url(href)} aria-current={path === url(href) ? 'page' : undefined}>{label}</a>
+          ))}
+        </nav>
+      </div>
+    </header>
+    <div class="page">
+      <slot />
+    </div>
+    <footer class="site-footer">
+      <div class="bar">
+        <span class="footer-name">{SITE_NAME}（仮称）</span>
+        <a href={url('/about/')}>このサイトについて</a>
+        <a href={url('/about/#privacy')}>プライバシーについて</a>
+        <span class="footer-note">掲載データの更新日：{slashDate(generatedOn)}</span>
+      </div>
+    </footer>
+  </body>
+</html>
+
+<style>
+  .bar { max-width: 1280px; margin: 0 auto; padding: 0 var(--gutter); display: flex; flex-wrap: wrap; }
+  .site-header { padding: 20px 0; background: var(--surface); border-bottom: 1px solid var(--line); }
+  .site-header .bar { align-items: center; gap: 12px 32px; }
+  .logo { font-size: 22px; font-weight: 700; }
+  .logo span { font-size: 12px; font-weight: 500; color: var(--muted); margin-left: 8px; }
+  nav { display: flex; flex-wrap: wrap; gap: 8px 28px; font-size: 15px; font-weight: 500; }
+  nav a[aria-current='page'] { color: var(--accent); }
+  @media (max-width: 720px) {
+    .site-header { padding: 14px 0; }
+    .logo { font-size: 19px; }
+    nav { gap: 6px 20px; font-size: 14px; }
+  }
+  .site-footer { margin-top: 48px; padding: 32px 0; background: var(--ink); color: #e3e7ef; font-size: 14px; line-height: 1.8; }
+  .site-footer .bar { gap: 12px 40px; }
+  .site-footer a:hover { color: #fff; text-decoration: underline; }
+  .footer-name { font-weight: 700; color: #fff; }
+  .footer-note { flex-basis: 100%; color: #b8c0d0; }
+</style>

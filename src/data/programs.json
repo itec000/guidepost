@@ -1,0 +1,740 @@
+{
+ "generatedOn": "2026-10-29",
+ "programs": [
+  {
+   "id": 2,
+   "category": "コンテスト",
+   "name": "中学生・高校生エネルギー探究プレゼンテーションコンテスト（令和8年度）",
+   "organizer": "経済産業省 資源エネルギー庁",
+   "tags": [
+    "環境・エネルギー",
+    "科学・研究"
+   ],
+   "grades": [
+    "中学生",
+    "高1",
+    "高2",
+    "高3"
+   ],
+   "target": "全国の中学生・高校生。1チーム1〜3名",
+   "period": "応募 2026-06-25 〜 2026-11-13。全国大会 2027-03-06",
+   "deadlineText": "2026-11-13",
+   "deadline": "2026-11-13",
+   "status": "open",
+   "cost": "参加費の記載なし。全国大会の旅費（交通費・宿泊費）は立替後に事務局が精算",
+   "area": "Webフォームで応募。全国大会は東京都内・品川駅周辺の会場予定（オンライン配信予定）",
+   "region": "全国（全国大会：東京都）",
+   "regionBlock": "全国",
+   "selection": "書類審査（12月ごろ出場決定）。全国大会は中高各5チーム、計10チーム予定",
+   "route": "公式ページに記載なし",
+   "depth": "判定不能",
+   "depthCriteria": {
+    "hasOutput": "あり",
+    "hasMentor": "不明",
+    "overMonth": "不明"
+   },
+   "confirm": "公式で確認",
+   "sourceUrl": "https://energy-kyoiku.meti.go.jp/wp-content/themes/energy/assets/purezen2026/data/guidline.pdf",
+   "officialUrl": "https://energy-kyoiku.meti.go.jp/contests/purezen2026/",
+   "lastChecked": "2026-10-28",
+   "needsRecheck": false
+  },
+  {
+   "id": 3,
+   "category": "コンテスト",
+   "name": "全国高校生 歴史探究ポスターコンクール「レキタン 2026」",
+   "organizer": "東北芸術工科大学 芸術学部 歴史遺産学科",
+   "tags": [
+    "歴史・文化・人文"
+   ],
+   "grades": [
+    "高1",
+    "高2",
+    "高3"
+   ],
+   "target": "日本国内の高校生（教職員が指導）。1〜10名の個人・グループ。1校から複数応募可",
+   "period": "応募 2026-12-01 〜 2027-02-14",
+   "deadlineText": "2027-02-14（必着）",
+   "deadline": "2027-02-14",
+   "status": "open",
+   "cost": "記載なし",
+   "area": "メール提出（応募用紙、A0ポスターPDF、10分以内の動画）。表彰式は2027年3月中旬にWeb配信予定",
+   "region": "全国（メール提出）",
+   "regionBlock": "全国",
+   "selection": "歴史遺産コース教員の運営委員会と特別審査員が審査（独創性・将来性・発展性）。最優秀賞1点（5万円）、優秀賞2点（2万円）ほか。結果発表は2027年3月上旬",
+   "route": "学校経由",
+   "depth": "判定不能",
+   "depthCriteria": {
+    "hasOutput": "あり",
+    "hasMentor": "あり",
+    "overMonth": "不明"
+   },
+   "confirm": "公式で確認",
+   "sourceUrl": "https://www.tuad.ac.jp/wp/wp-content/uploads/2026/07/rekitan2026_yoko.pdf",
+   "officialUrl": "https://www.tuad.ac.jp/rekitan/",
+   "lastChecked": "2026-10-28",
+   "needsRecheck": false
+  },
+  {
+   "id": 4,
+   "category": "コンテスト",
+   "name": "Bunri Creative Award 2026 高校生探究発表コンテスト",
+   "organizer": "名古屋文理大学",
+   "tags": [
+    "科学・研究",
+    "社会課題・政策"
+   ],
+   "grades": [
+    "高1",
+    "高2",
+    "高3"
+   ],
+   "target": "高校生。個人・グループ可",
+   "period": "早期受付 2026-09-01〜、応募期間 2026-10-26〜2027-01-07。表彰式 2027-02-13",
+   "deadlineText": "2027-01-07",
+   "deadline": "2027-01-07",
+   "status": "open",
+   "cost": "無料",
+   "area": "応募フォーム（10分以内のプレゼン動画 または ポスターPDF）",
+   "region": "全国（オンライン応募）",
+   "regionBlock": "全国",
+   "selection": "書類審査で各賞を決定。学長賞・学部長賞・稲沢市長賞・稲沢市教育委員会賞ほか",
+   "route": "個人・学校どちらも可",
+   "depth": "判定不能",
+   "depthCriteria": {
+    "hasOutput": "あり",
+    "hasMentor": "不明",
+    "overMonth": "不明"
+   },
+   "confirm": "公式で確認",
+   "sourceUrl": "https://www.nagoya-bunri.ac.jp/news/post-33671/",
+   "officialUrl": "https://www.nagoya-bunri.ac.jp/~bcontest/",
+   "lastChecked": "2026-10-28",
+   "needsRecheck": false
+  },
+  {
+   "id": 5,
+   "category": "大学プログラム",
+   "name": "UTokyoGSC-Next 2026",
+   "organizer": "東京大学",
+   "tags": [
+    "科学・研究"
+   ],
+   "grades": [
+    "高1",
+    "高2"
+   ],
+   "target": "全国の高校1・2年生（高専・中等教育学校を含む。2026年4月時点）",
+   "period": "第2段階 2026-07-23〜11-26。第3段階 2027-03上旬〜2028年1〜3月",
+   "deadlineText": "2026-05-15 正午（2026年度分は終了）",
+   "deadline": "2026-05-15",
+   "status": "closed",
+   "cost": "無料。交通費は原則自己負担（遠方は一部補助の可能性）",
+   "area": "東京大学での講座・研究室研究（詳細は公式で確認）",
+   "region": "東京都（全国から参加可）",
+   "regionBlock": "関東",
+   "selection": "書類選考（自己推薦文＋レポート課題）。第2段階 約70名、第3段階 約20名",
+   "route": "個人で応募",
+   "depth": "判定不能",
+   "depthCriteria": {
+    "hasOutput": "あり",
+    "hasMentor": "不明",
+    "overMonth": "あり"
+   },
+   "confirm": "公式で確認",
+   "sourceUrl": "https://www.u-tokyo.ac.jp/focus/ja/events/z0205_00225.html",
+   "officialUrl": "https://gsc.iis.u-tokyo.ac.jp/",
+   "lastChecked": "2026-10-28",
+   "needsRecheck": false
+  },
+  {
+   "id": 7,
+   "category": "インターン",
+   "name": "2026年度冬季高校生インターンシップ",
+   "organizer": "コムロコンサルティンググループ",
+   "tags": [
+    "ビジネス・起業"
+   ],
+   "grades": [
+    "高1",
+    "高2",
+    "高3"
+   ],
+   "target": "高校在学中、保護者の同意を得られる方、ビジネス・起業に興味がある方",
+   "period": "2026-12-26（土）〜12-27（日）",
+   "deadlineText": "第1次 書類提出 2026-10-12〜10-23。第2次 2026-11-09〜11-20",
+   "deadline": "2026-11-20",
+   "status": "open",
+   "cost": "報酬・交通費・宿泊費の支給なし。参加費の記載なし",
+   "area": "東京都渋谷区代々木1-30-15 天翔代々木ビル内",
+   "region": "東京都渋谷区",
+   "regionBlock": "関東",
+   "selection": "若干名。履歴書（写真必須）とエッセイ（A4×2テーマ）を郵送またはフォームで提出",
+   "route": "個人で応募",
+   "depth": "判定不能",
+   "depthCriteria": {
+    "hasOutput": "あり",
+    "hasMentor": "不明",
+    "overMonth": "なし"
+   },
+   "confirm": "公式で確認",
+   "sourceUrl": "https://ko-cg.com/internship/high-school/summary-2026/winter/",
+   "officialUrl": null,
+   "lastChecked": "2026-10-28",
+   "needsRecheck": false
+  },
+  {
+   "id": 8,
+   "category": "インターン",
+   "name": "高校生インターン「チェリスタ！」",
+   "organizer": "株式会社SAKURUG",
+   "tags": [
+    "ビジネス・起業"
+   ],
+   "grades": [
+    "高1",
+    "高2",
+    "高3"
+   ],
+   "target": "高校生",
+   "period": "通年募集の短期インターン。主に3日間・13:00〜17:00（1日・オンラインも相談可）",
+   "deadlineText": "随時",
+   "deadline": null,
+   "status": "rolling",
+   "cost": "参加費無料。交通費・給料なし",
+   "area": "渋谷の本社（渋谷サクラステージ セントラルビル17F）またはオンライン",
+   "region": "東京都渋谷区／オンライン",
+   "regionBlock": "関東",
+   "selection": "応募フォーム→書類選考→Web面談。内容は個別にカリキュラム作成",
+   "route": "個人で応募",
+   "depth": "判定不能",
+   "depthCriteria": {
+    "hasOutput": "あり",
+    "hasMentor": "不明",
+    "overMonth": "なし"
+   },
+   "confirm": "公式で確認",
+   "sourceUrl": "https://cherista.sakurug.co.jp/",
+   "officialUrl": null,
+   "lastChecked": "2026-10-28",
+   "needsRecheck": false
+  },
+  {
+   "id": 10,
+   "category": "ボランティア",
+   "name": "テイク・アクション・キャンプ・ジャパン 2026冬",
+   "organizer": "認定NPO法人フリー・ザ・チルドレン・ジャパン",
+   "tags": [
+    "国際・協力",
+    "社会課題・政策"
+   ],
+   "grades": [
+    "中学生",
+    "高1",
+    "高2",
+    "高3"
+   ],
+   "target": "小学5年生〜高校3年生",
+   "period": "2026-12-26（土）〜12-28（月）2泊3日",
+   "deadlineText": "一般 2026-11-24 19:00／早割 2026-11-01 23:59／スカラシップ申請 2026-11-08 23:59",
+   "deadline": "2026-11-24",
+   "status": "open",
+   "cost": "参加費39,000円、早割36,000円（税込、交通費別）。全額免除スカラシップあり",
+   "area": "大阪国際ユースホステル（大阪府高石市）",
+   "region": "大阪府高石市",
+   "regionBlock": "関西",
+   "selection": "定員24名（最少催行20名）。旅行会社（関西教育旅行）の予約ページから申込",
+   "route": "個人で応募",
+   "depth": "判定不能",
+   "depthCriteria": {
+    "hasOutput": "不明",
+    "hasMentor": "あり",
+    "overMonth": "なし"
+   },
+   "confirm": "公式で確認",
+   "sourceUrl": "https://ftcj.org/takeaction/takeactioncamp/",
+   "officialUrl": null,
+   "lastChecked": "2026-10-28",
+   "needsRecheck": false
+  },
+  {
+   "id": 13,
+   "category": "コンテスト",
+   "name": "全国高校生マイプロジェクトアワード 2026",
+   "organizer": "マイプロジェクト事務局（認定NPO法人カタリバ内）",
+   "tags": [
+    "社会課題・政策",
+    "地域・まちづくり"
+   ],
+   "grades": [
+    "高1",
+    "高2",
+    "高3"
+   ],
+   "target": "高校生またはそれに準ずる年齢で、自ら考え行動した経験がある人。代表者1名がエントリー",
+   "period": "エントリー 2026-10-15 〜 2026-12-04 17:00。地域Summit 2026-12〜2027-01。全国Summit 2027-03-19〜21",
+   "deadlineText": "2026-12-04 17:00（学校の先生の登録は 12-16）",
+   "deadline": "2026-12-04",
+   "status": "open",
+   "cost": "無料",
+   "area": "地域Summit（青森から沖縄まで18地域＋オンライン）。全国Summitは昭和女子大学（東京）",
+   "region": "全国（地域Summit：青森〜沖縄）",
+   "regionBlock": "全国",
+   "selection": "書類選考→地域Summit→動画→Advanced（約100）→全国Summit（48プロジェクト）。文部科学大臣賞ほか",
+   "route": "個人で応募",
+   "depth": "判定不能",
+   "depthCriteria": {
+    "hasOutput": "あり",
+    "hasMentor": "不明",
+    "overMonth": "あり"
+   },
+   "confirm": "公式で確認",
+   "sourceUrl": "https://myprojects.jp/award/",
+   "officialUrl": null,
+   "lastChecked": "2026-10-28",
+   "needsRecheck": false
+  },
+  {
+   "id": 14,
+   "category": "大学プログラム",
+   "name": "「あなたも1日大学生」『数学研究』と『数学教育』の世界",
+   "organizer": "東京理科大学",
+   "tags": [
+    "数学・情報",
+    "教育・子ども"
+   ],
+   "grades": [
+    "中学生",
+    "高1",
+    "高2",
+    "高3"
+   ],
+   "target": "高校生（中学3年生、中高教員も申込可）",
+   "period": "2026-12-24（木）10:00〜15:00",
+   "deadlineText": "2026-12-16",
+   "deadline": "2026-12-16",
+   "status": "open",
+   "cost": "無料（昼食代は各自負担）",
+   "area": "東京理科大学 神楽坂キャンパス",
+   "region": "東京都新宿区（神楽坂キャンパス）",
+   "regionBlock": "関東",
+   "selection": "定員20人。専用フォームから申込",
+   "route": "個人で応募",
+   "depth": "体験",
+   "depthCriteria": {
+    "hasOutput": "なし",
+    "hasMentor": "なし",
+    "overMonth": "なし"
+   },
+   "confirm": "公式で確認",
+   "sourceUrl": "https://www.tus.ac.jp/mse/20261224-01/",
+   "officialUrl": null,
+   "lastChecked": "2026-10-28",
+   "needsRecheck": false
+  },
+  {
+   "id": 15,
+   "category": "大学プログラム",
+   "name": "明治大学 理工学部・農学部 高校生向け公開講座",
+   "organizer": "明治大学 理工学部・農学部",
+   "tags": [
+    "科学・研究"
+   ],
+   "grades": [
+    "高1",
+    "高2",
+    "高3"
+   ],
+   "target": "高校1〜3年生および受験生",
+   "period": "2026年5月〜12月の土曜日、全15回、14:00〜15:30",
+   "deadlineText": "各講座の3日前まで",
+   "deadline": null,
+   "status": "rolling",
+   "cost": "無料",
+   "area": "明治大学 生田キャンパス（神奈川県川崎市）",
+   "region": "神奈川県川崎市",
+   "regionBlock": "関東",
+   "selection": "参加申込フォームから。1回単位で参加可。定員の記載なし",
+   "route": "個人で応募",
+   "depth": "体験",
+   "depthCriteria": {
+    "hasOutput": "なし",
+    "hasMentor": "なし",
+    "overMonth": "なし"
+   },
+   "confirm": "公式で確認",
+   "sourceUrl": "https://www.meiji.ac.jp/koho/press/2026/qfki0t00000hwlip.html",
+   "officialUrl": null,
+   "lastChecked": "2026-10-23",
+   "needsRecheck": false
+  },
+  {
+   "id": 16,
+   "category": "大学プログラム",
+   "name": "高校生と大学生のための金曜特別講座（2026年度冬学期）",
+   "organizer": "東京大学 教養学部",
+   "tags": [
+    "科学・研究",
+    "歴史・文化・人文"
+   ],
+   "grades": [
+    "高1",
+    "高2",
+    "高3"
+   ],
+   "target": "高校生・大学生（特に高校1・2年、進路を考える人向け）",
+   "period": "2026-10-02 開講、全13回（最終回は 2027-02-12 予定）",
+   "deadlineText": "記載なし（高校生は学校の先生を通じて配信手続き）",
+   "deadline": null,
+   "status": "unknown",
+   "cost": "記載なし",
+   "area": "インターネット配信のみ（申し込んだ学校の生徒が校内のPC・スマートフォンで受講）",
+   "region": "オンライン",
+   "regionBlock": "オンライン",
+   "selection": "記載なし",
+   "route": "学校経由",
+   "depth": "体験",
+   "depthCriteria": {
+    "hasOutput": "なし",
+    "hasMentor": "なし",
+    "overMonth": "あり"
+   },
+   "confirm": "公式で確認",
+   "sourceUrl": "https://high-school.c.u-tokyo.ac.jp/",
+   "officialUrl": null,
+   "lastChecked": "2026-10-23",
+   "needsRecheck": false
+  },
+  {
+   "id": 17,
+   "category": "大学プログラム",
+   "name": "高校生のための公開講座（数学科）",
+   "organizer": "大阪大学",
+   "tags": [
+    "数学・情報"
+   ],
+   "grades": [
+    "高1",
+    "高2",
+    "高3"
+   ],
+   "target": "高校生・一般",
+   "period": "2026-11-03（火・祝）13:30〜15:50",
+   "deadlineText": "要確認",
+   "deadline": null,
+   "status": "unknown",
+   "cost": "無料",
+   "area": "大阪大学 豊中キャンパス 理学研究科E棟 E404",
+   "region": "大阪府豊中市",
+   "regionBlock": "関西",
+   "selection": "登録フォームから申込。定員の記載なし",
+   "route": "個人で応募",
+   "depth": "体験",
+   "depthCriteria": {
+    "hasOutput": "なし",
+    "hasMentor": "なし",
+    "overMonth": "なし"
+   },
+   "confirm": "公式で確認",
+   "sourceUrl": "https://www.sci.osaka-u.ac.jp/ja/event/17223/",
+   "officialUrl": null,
+   "lastChecked": "2026-10-28",
+   "needsRecheck": false
+  },
+  {
+   "id": 18,
+   "category": "コンテスト",
+   "name": "Technovation Girls 2027（日本）",
+   "organizer": "Technovation（米国NPO）。日本では Waffle が運営を支援",
+   "tags": [
+    "数学・情報",
+    "ビジネス・起業"
+   ],
+   "grades": [
+    "中学生",
+    "高1",
+    "高2",
+    "高3"
+   ],
+   "target": "女性・ジェンダーマイノリティの中高生（2026-12-01時点で13歳以上、2027-08-01に18歳以下、日本在住で日本語可）。チーム最大5人",
+   "period": "2026年12月〜2027年5月（ピッチ出場チームは6月中旬まで）",
+   "deadlineText": "2026-12-06 23:59",
+   "deadline": "2026-12-06",
+   "status": "open",
+   "cost": "無料（パソコンとWi-Fi機器の無償貸出あり）",
+   "area": "記載なし",
+   "region": "全国（日本在住が条件）",
+   "regionBlock": "全国",
+   "selection": "専用サイトから申込",
+   "route": "個人で応募",
+   "depth": "深入",
+   "depthCriteria": {
+    "hasOutput": "あり",
+    "hasMentor": "あり",
+    "overMonth": "あり"
+   },
+   "confirm": "公式で確認",
+   "sourceUrl": "https://technovation.waffle-waffle.org",
+   "officialUrl": "https://technovation.waffle-waffle.org",
+   "lastChecked": "2026-10-28",
+   "needsRecheck": false
+  },
+  {
+   "id": 19,
+   "category": "コンテスト",
+   "name": "第1回 中高生プログラミングコンテストTOYAMA",
+   "organizer": "富山県",
+   "tags": [
+    "数学・情報"
+   ],
+   "grades": [
+    "中学生",
+    "高1",
+    "高2",
+    "高3"
+   ],
+   "target": "富山県内在住の中学生・高校生（相当する年齢の方）",
+   "period": "応募 2026-12-01 〜 2027-01-10。最終審査会 2027-02-07",
+   "deadlineText": "2027-01-10",
+   "deadline": "2027-01-10",
+   "status": "open",
+   "cost": "記載なし",
+   "area": "応募フォーム（会員登録不要）。最終審査会はファボーレホール（富山）",
+   "region": "富山県（県内在住が条件）",
+   "regionBlock": "中部",
+   "selection": "一次審査（結果は1月下旬）→最終審査会。作品部門（10分以内の動画）／アイデア部門（10ページ以内のスライド）。個人・団体（5人以下）可",
+   "route": "個人で応募",
+   "depth": "判定不能",
+   "depthCriteria": {
+    "hasOutput": "あり",
+    "hasMentor": "不明",
+    "overMonth": "不明"
+   },
+   "confirm": "公式で確認",
+   "sourceUrl": "https://setupnext-project.com/",
+   "officialUrl": "https://setupnext-project.com/#contest",
+   "lastChecked": "2026-10-28",
+   "needsRecheck": false
+  },
+  {
+   "id": 20,
+   "category": "コンテスト",
+   "name": "第14回 高校生ビジネスプラン・グランプリ",
+   "organizer": "日本政策金融公庫",
+   "tags": [
+    "ビジネス・起業"
+   ],
+   "grades": [
+    "高1",
+    "高2",
+    "高3"
+   ],
+   "target": "全国の高校（中等教育学校後期課程を含む）・高専（1〜3年）の生徒。グループまたは個人",
+   "period": "受付 2026-08-19 〜 2026-09-24。ファイナリスト発表 11月下旬。最終審査会 2027-01-10（東京大学伊藤謝恩ホール）",
+   "deadlineText": "2026-09-24 23:59（終了）",
+   "deadline": "2026-09-24",
+   "status": "closed",
+   "cost": "記載なし",
+   "area": "全国",
+   "region": "全国",
+   "regionBlock": "全国",
+   "selection": "ビジネスプランシートによる審査→最終審査会",
+   "route": "個人・学校どちらも可",
+   "depth": "判定不能",
+   "depthCriteria": {
+    "hasOutput": "あり",
+    "hasMentor": "不明",
+    "overMonth": "不明"
+   },
+   "confirm": "公式で確認",
+   "sourceUrl": "https://www.jfc.go.jp/n/grandprix/about/require_apply.html",
+   "officialUrl": "https://www.jfc.go.jp/n/grandprix/index.html",
+   "lastChecked": "2026-10-28",
+   "needsRecheck": false
+  },
+  {
+   "id": 21,
+   "category": "研究助成",
+   "name": "次世代研究者助成事業",
+   "organizer": "公益財団法人 中山隼雄科学技術文化財団",
+   "tags": [
+    "科学・研究"
+   ],
+   "grades": [
+    "高1",
+    "高2",
+    "高3"
+   ],
+   "target": "日本国内の高校（3年生まで）・高専（4〜6年）の生徒・学生。3名までのグループ（指導教員の登録が必要）",
+   "period": "2026年度募集は 2025-12-01 〜 2026-01-30（終了）。成果発表会は11月",
+   "deadlineText": "2026年度分は終了",
+   "deadline": null,
+   "status": "closed",
+   "cost": "助成額1件10万円（物品購入費に限る）",
+   "area": "全国",
+   "region": "全国",
+   "regionBlock": "全国",
+   "selection": "研究計画書・同意書・1分以内の動画。有識者による2段階審査",
+   "route": "公式ページに記載なし",
+   "depth": "深入",
+   "depthCriteria": {
+    "hasOutput": "あり",
+    "hasMentor": "あり",
+    "overMonth": "あり"
+   },
+   "confirm": "公式で確認",
+   "sourceUrl": "https://www.nakayama-zaidan.or.jp/subsidy_hs/index.html",
+   "officialUrl": null,
+   "lastChecked": "2026-10-23",
+   "needsRecheck": false
+  },
+  {
+   "id": 22,
+   "category": "大学プログラム",
+   "name": "高校生研究員 2026",
+   "organizer": "東京大学 先端科学技術研究センター",
+   "tags": [
+    "科学・研究"
+   ],
+   "grades": [
+    "中学生",
+    "高1",
+    "高2",
+    "高3"
+   ],
+   "target": "自分の研究テーマを持つ高校生または中学生（学校経由、担当教員とペアで応募）",
+   "period": "夏期集合型プログラム 2026-08-05 → オフィスアワー（10/24、12/25）→ 成果発表会 2027-03-26",
+   "deadlineText": "2026年度分は終了（4/30、5/24、6/15）",
+   "deadline": "2026-06-15",
+   "status": "closed",
+   "cost": "無料（交通費・宿泊費は個別に判断）",
+   "area": "東京大学 先端科学技術研究センター",
+   "region": "東京都（東大先端研）",
+   "regionBlock": "関東",
+   "selection": "書面審査→面談。生徒10組程度、1校2件まで",
+   "route": "学校経由",
+   "depth": "深入",
+   "depthCriteria": {
+    "hasOutput": "あり",
+    "hasMentor": "あり",
+    "overMonth": "あり"
+   },
+   "confirm": "公式で確認",
+   "sourceUrl": "https://aeo.rcast.u-tokyo.ac.jp/studentresearcher2026/",
+   "officialUrl": null,
+   "lastChecked": "2026-10-28",
+   "needsRecheck": false
+  },
+  {
+   "id": 24,
+   "category": "インターン",
+   "name": "プロジェクト部の広報・運営メンバー",
+   "organizer": "株式会社a.school",
+   "tags": [
+    "教育・子ども",
+    "芸術・表現・メディア"
+   ],
+   "grades": [
+    "高1",
+    "高2",
+    "高3"
+   ],
+   "target": "高校生可（大学生・専門学生も）",
+   "period": "1〜3ヶ月（任期3ヶ月）。週0〜1回（オンラインMTG30分＋週1時間程度）",
+   "deadlineText": "2026-11-30",
+   "deadline": "2026-11-30",
+   "status": "open",
+   "cost": "無料",
+   "area": "フルリモート",
+   "region": "オンライン（フルリモート）",
+   "regionBlock": "オンライン",
+   "selection": "応募画面から申込",
+   "route": "個人で応募",
+   "depth": "判定不能",
+   "depthCriteria": {
+    "hasOutput": "あり",
+    "hasMentor": "不明",
+    "overMonth": "あり"
+   },
+   "confirm": "二次情報で確認",
+   "sourceUrl": "https://activo.jp/articles/106982",
+   "officialUrl": null,
+   "lastChecked": "2026-10-23",
+   "needsRecheck": false
+  },
+  {
+   "id": 25,
+   "category": "インターン",
+   "name": "社会起業家支援NPOのインターン",
+   "organizer": "特定非営利活動法人ARUN Seed",
+   "tags": [
+    "ビジネス・起業",
+    "社会課題・政策"
+   ],
+   "grades": [
+    "高1",
+    "高2",
+    "高3"
+   ],
+   "target": "高校生可（大学生・専門学生も）",
+   "period": "原則1年以上（2026年10月活動開始）。週8〜10時間程度、完全フレックス",
+   "deadlineText": "記載なし",
+   "deadline": null,
+   "status": "unknown",
+   "cost": "活動は無償。インターン登録料5,000円。交通費は実費支給",
+   "area": "東京都文京区小石川（フルリモート可）",
+   "region": "東京都文京区／フルリモート可",
+   "regionBlock": "関東",
+   "selection": "履歴書・志望動機書→オンライン面談",
+   "route": "個人で応募",
+   "depth": "判定不能",
+   "depthCriteria": {
+    "hasOutput": "あり",
+    "hasMentor": "不明",
+    "overMonth": "あり"
+   },
+   "confirm": "公式で確認",
+   "sourceUrl": "https://www.arunseed.jp/join/work/intern_bosyu260721.html",
+   "officialUrl": null,
+   "lastChecked": "2026-10-28",
+   "needsRecheck": false
+  },
+  {
+   "id": 31,
+   "category": "ボランティア",
+   "name": "音楽ライブの企画・運営プロジェクト（高校生・大学生向け）",
+   "organizer": "NPO法人ブラストビート",
+   "tags": [
+    "芸術・表現・メディア",
+    "スポーツ・イベント運営"
+   ],
+   "grades": [
+    "高1",
+    "高2",
+    "高3"
+   ],
+   "target": "高校生・大学生",
+   "period": "2026-12-06 〜 2027-03-31",
+   "deadlineText": "2026-11-10（activo 掲載。公式は人数により早期締切あり）",
+   "deadline": "2026-11-10",
+   "status": "open",
+   "cost": "無料",
+   "area": "フルリモート可／東京都新宿区",
+   "region": "東京都新宿区／フルリモート可",
+   "regionBlock": "関東",
+   "selection": "オンライン説明会→チーム編成。12/6キックオフ、1/17中間プレゼン、2/14直前プレゼン、3/16までにライブ開催",
+   "route": "個人で応募",
+   "depth": "深入",
+   "depthCriteria": {
+    "hasOutput": "あり",
+    "hasMentor": "あり",
+    "overMonth": "あり"
+   },
+   "confirm": "公式で確認",
+   "sourceUrl": "https://blastbeat.jp/news/2026w_bosyu/",
+   "officialUrl": "https://blastbeat.jp/",
+   "lastChecked": "2026-10-28",
+   "needsRecheck": false
+  }
+ ]
+}

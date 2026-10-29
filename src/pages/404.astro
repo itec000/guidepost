@@ -1,0 +1,11 @@
+---
+import Base from '../layouts/Base.astro';
+import { url } from '../lib/format.ts';
+---
+<Base title="ページが見つかりません">
+  <main class="section">
+    <h1>ページが見つかりません</h1>
+    <p>掲載が終わったか、アドレスが変わった可能性があります。</p>
+    <p><a href={url('/search/')} style="color:var(--accent);font-weight:700">探究・体験の機会をさがす →</a></p>
+  </main>
+</Base>

@@ -1,0 +1,102 @@
+/* 色・余白はモックアップ（mockup/project/*.dc.html）に合わせる */
+:root {
+  --ink: #17233b;
+  --ink-2: #2b3649;
+  --muted: #4b5668;
+  --muted-2: #5b6679;
+  --line: #dde1e8;
+  --line-2: #c5ccda;
+  --line-input: #aeb6c4;
+  --bg: #f6f7f9;
+  --surface: #ffffff;
+  --accent: #2f4bd8;
+  --accent-soft: #e8ecfc;
+  --deadline: #a12b1b;
+  --radius: 12px;
+  --gutter: 48px;
+  font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', 'Yu Gothic UI', Meiryo, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.6;
+  -webkit-text-size-adjust: 100%;
+}
+@media (max-width: 720px) {
+  :root { --gutter: 16px; }
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { margin: 0; background: var(--bg); }
+a { color: inherit; text-decoration: none; }
+a:hover { color: var(--accent); }
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+h1, h2, h3, p { margin: 0; }
+button, input, select { font: inherit; color: inherit; }
+
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap;
+}
+.page { max-width: 1280px; margin: 0 auto; }
+.section { padding: 32px var(--gutter) 24px; display: flex; flex-direction: column; gap: 24px; }
+.section > h2 { font-size: 24px; }
+@media (max-width: 720px) { .section > h2 { font-size: 20px; } }
+
+.grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); }
+
+/* カード */
+.card {
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 20px 24px; display: flex; flex-direction: column; gap: 12px;
+}
+a.card:hover { border-color: var(--accent); color: inherit; }
+a.card:hover .card-title { color: var(--accent); }
+
+/* ラベル類 */
+.tag {
+  display: inline-block; font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 6px;
+  line-height: 1.4; white-space: nowrap;
+}
+.tag-outline { background: var(--surface); border: 1px solid var(--line-2); padding: 3px 8px; font-weight: 500; }
+.cat-コンテスト { background: #fdebd3; color: #7a3e00; }
+.cat-大学プログラム { background: #e3eafd; color: #1e3a8a; }
+.cat-インターン { background: #d9f2ea; color: #0b5d4b; }
+.cat-ボランティア { background: #f9e1ee; color: #7a1f4b; }
+.cat-研究助成 { background: #ede6f8; color: #4a2a86; }
+.confirm-公式で確認 { background: #d9f2ea; color: #0b5d4b; }
+.confirm-二次情報で確認 { background: #fff1cc; color: #6b4a00; }
+.recheck { background: #fbe0dc; color: #8a1f12; }
+.status-closed { background: #e3e7ef; color: #3a4558; }
+
+.deadline { font-size: 13px; font-weight: 700; color: var(--deadline); white-space: nowrap; }
+.deadline.is-closed, .deadline.is-unknown { color: var(--muted-2); }
+.deadline.is-rolling { color: #0b5d4b; }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 28px;
+  border-radius: 10px; font-weight: 700; cursor: pointer; border: 1px solid var(--ink); background: var(--surface);
+}
+.btn-primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn-primary:hover { color: #fff; background: #253db3; }
+/* 体験の形：段階が深いほど濃く。判定不能は色を付けない */
+.depth-体験 { background: #eef1fb; color: #34428a; }
+.depth-実践 { background: #c9d3f8; color: #1f2f80; }
+.depth-深入 { background: #2f4bd8; color: #fff; }
+.depth-判定不能 { background: var(--surface); color: var(--muted); border: 1px dashed var(--line-input); padding: 3px 9px; }
+
+/* ドロップダウン：標準の矢印を消して、右に余白のある矢印を描く */
+select {
+  appearance: none; height: 36px; padding: 0 34px 0 12px; font-size: 14px; font-weight: 400;
+  border: 1px solid var(--line-input); border-radius: 8px; cursor: pointer;
+  background: var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5 11 1.5' fill='none' stroke='%234b5668' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 12px center;
+}
+select:hover { border-color: var(--ink); }
+
+.chip {
+  min-height: 44px; padding: 0 18px; border-radius: 999px; border: 1px solid var(--line-input);
+  background: var(--surface); font-size: 14px; font-weight: 700; cursor: pointer;
+}
+.chip[aria-pressed='true'] { background: var(--ink); border-color: var(--ink); color: #fff; }

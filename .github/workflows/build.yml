@@ -1,0 +1,79 @@
+# 表格を読んで、検証して、GitHub Pages に公開する。
+# ログは誰でも見られるので、内部メモなど公開しない値は出さない（build-data.ts 参照）
+name: サイトを更新
+
+on:
+  schedule:
+    - cron: '0 21 * * *' # 毎日 6:00（日本時間）
+  workflow_dispatch: # 表格の「サイトを更新」ボタン、または Actions 画面から手動で
+  push:
+    branches: [main]
+
+permissions:
+  contents: write # 公開データのスナップショットを保存する
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: テスト
+        run: npm test
+
+      - name: 表格を読む
+        run: npm run fetch
+        env:
+          SHEET_ID: ${{ vars.SHEET_ID }}
+          GOOGLE_SERVICE_ACCOUNT_KEY: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_KEY }}
+
+      - name: 検証して公開データを作る
+        run: npm run data
+
+      - name: 公開データのスナップショットを保存
+        run: |
+          git add src/data/programs.json
+          if git diff --cached --quiet; then
+            echo "公開データに変更なし"
+            exit 0
+          fi
+          git -c user.name="github-actions[bot]" \
+              -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+              commit -m "公開データを更新 $(TZ=Asia/Tokyo date +%F)"
+          git push
+
+      - id: pages
+        uses: actions/configure-pages@v6
+
+      - name: サイトを作る
+        run: npx astro build
+        env:
+          SITE_ORIGIN: ${{ steps.pages.outputs.origin }}
+          BASE_PATH: ${{ steps.pages.outputs.base_path }}
+
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5

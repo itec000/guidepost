@@ -1,0 +1,185 @@
+---
+import Base from '../../layouts/Base.astro';
+import ProgramCard from '../../components/ProgramCard.astro';
+import { byDeadline, programs, url } from '../../lib/format.ts';
+import { CATEGORIES, GRADES, TAGS } from '../../lib/schema.ts';
+
+const sorted = [...programs].sort(byDeadline);
+const BLOCKS = [
+  ['全国', '全国から応募'], ['オンライン', 'オンライン'], ['北海道・東北', '北海道・東北'], ['関東', '関東'],
+  ['中部', '中部'], ['関西', '関西'], ['中国・四国', '中国・四国'], ['九州・沖縄', '九州・沖縄'],
+] as const;
+// 掲載のある地方だけチップを出す
+const blocks = BLOCKS.filter(([b]) => programs.some((p) => p.regionBlock === b));
+const categories = CATEGORIES.filter((c) => programs.some((p) => p.category === c));
+---
+<Base title="さがす">
+  <div class="controls section">
+    <h1 class="visually-hidden">さがす</h1>
+    <div class="search-row">
+      <label for="q" class="visually-hidden">キーワード</label>
+      <input id="q" name="q" type="search" placeholder="キーワードで絞り込む（例：プログラミング、無料、福祉）" autocomplete="off" />
+    </div>
+
+    <div class="chips" role="group" aria-labelledby="cat-label">
+      <span id="cat-label" class="chips-label">種類</span>
+      <button type="button" class="chip" data-filter="cat" data-value="" aria-pressed="true">すべて</button>
+      {categories.map((c) => <button type="button" class="chip" data-filter="cat" data-value={c} aria-pressed="false">{c}</button>)}
+    </div>
+    <div class="chips" role="group" aria-labelledby="block-label">
+      <span id="block-label" class="chips-label">地域</span>
+      <button type="button" class="chip" data-filter="block" data-value="" aria-pressed="true">すべて</button>
+      {blocks.map(([v, label]) => <button type="button" class="chip" data-filter="block" data-value={v} aria-pressed="false">{label}</button>)}
+    </div>
+
+    <div class="selects">
+      <label>分野
+        <select data-filter="tag">
+          <option value="">すべて</option>
+          {TAGS.map((t) => <option>{t}</option>)}
+        </select>
+      </label>
+      <label>学年
+        <select data-filter="grade">
+          <option value="">すべて</option>
+          {GRADES.filter((g) => g !== '記載なし').map((g) => <option>{g}</option>)}
+        </select>
+      </label>
+      <label>体験の形
+        <select data-filter="depth">
+          <option value="">すべて</option>
+          <option>体験</option><option>実践</option><option>深入</option><option>判定不能</option>
+        </select>
+      </label>
+      <a class="help" href={url('/about/#depth')}>体験の形とは？</a>
+    </div>
+
+    <div class="result-bar">
+      <p class="count" aria-live="polite"><span id="count">{sorted.length}</span> 件</p>
+      <div class="result-actions">
+        <button type="button" class="chip" id="closed" aria-pressed="false">終了した募集も表示</button>
+        <label>並び替え
+          <select id="sort">
+            <option value="deadline">締切が近い順</option>
+            <option value="checked">最近確認した順</option>
+          </select>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <main class="section results">
+    <p id="empty" class="empty" hidden>条件に合う項目がありません。<br />条件をゆるめてみてください。</p>
+    <div id="list" class="grid">
+      {sorted.map((p, i) => <ProgramCard program={p} order={i} />)}
+    </div>
+  </main>
+</Base>
+
+<style>
+  .controls { padding-bottom: 0; gap: 16px; }
+  .search-row input {
+    width: 100%; min-height: 52px; padding: 0 18px; font-size: 16px;
+    border: 1px solid var(--line-input); border-radius: 10px; background: var(--surface);
+  }
+  .chips { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; }
+  .chips-label { font-size: 14px; font-weight: 700; min-width: 48px; }
+  @media (max-width: 720px) {
+    /* 狭い画面ではチップを折り返さず横にスクロール（結果を早く見せる） */
+    .chips { flex-wrap: nowrap; overflow-x: auto; margin-inline: calc(-1 * var(--gutter)); padding: 2px var(--gutter); scrollbar-width: none; }
+    .chip { flex: none; }
+    .chips-label { flex: none; min-width: 0; }
+    .controls { gap: 12px; }
+  }
+  .selects, .result-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; font-size: 14px; font-weight: 700; }
+  .selects label, .result-actions label { display: flex; align-items: center; gap: 8px; }
+  .help { color: var(--accent); font-weight: 500; }
+  .result-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
+  .count { font-size: 15px; color: #3a4558; }
+  .count span { font-size: 22px; font-weight: 700; color: var(--ink); }
+  .results { padding-top: 20px; }
+  .empty {
+    background: var(--surface); border: 1px dashed var(--line-input); border-radius: var(--radius);
+    padding: 48px 16px; text-align: center; color: var(--muted); line-height: 1.8;
+  }
+</style>
+
+<script>
+  type State = { q: string; cat: string; block: string; tag: string; grade: string; depth: string; closed: boolean; sort: string };
+  const list = document.getElementById('list')!;
+  const cards = [...list.querySelectorAll<HTMLElement>('.program-card')];
+  const params = new URLSearchParams(location.search);
+  const state: State = {
+    q: params.get('q') ?? '',
+    cat: params.get('cat') ?? '',
+    block: params.get('block') ?? '',
+    tag: params.get('tag') ?? '',
+    grade: params.get('grade') ?? '',
+    depth: params.get('depth') ?? '',
+    closed: params.get('closed') === '1',
+    sort: params.get('sort') === 'checked' ? 'checked' : 'deadline',
+  };
+
+  const q = document.getElementById('q') as HTMLInputElement;
+  const closed = document.getElementById('closed')!;
+  const sort = document.getElementById('sort') as HTMLSelectElement;
+  const chips = [...document.querySelectorAll<HTMLButtonElement>('button[data-filter]')];
+  const selects = [...document.querySelectorAll<HTMLSelectElement>('select[data-filter]')];
+  const normalize = (s: string) => s.normalize('NFKC').toLowerCase();
+
+  function matches(card: HTMLElement): boolean {
+    const d = card.dataset;
+    if (!state.closed && d.status === 'closed') return false;
+    if (state.cat && d.category !== state.cat) return false;
+    if (state.block && d.block !== state.block) return false;
+    if (state.tag && !d.tags!.split('|').includes(state.tag)) return false;
+    if (state.grade && !d.grades!.split('|').includes(state.grade)) return false;
+    if (state.depth && d.depth !== state.depth) return false;
+    const words = normalize(state.q).split(/\s+/).filter(Boolean);
+    const text = normalize(d.keywords!);
+    return words.every((w) => text.includes(w));
+  }
+
+  function render() {
+    const order = (c: HTMLElement) => Number(c.dataset.order);
+    const sorted = [...cards].sort((a, b) =>
+      state.sort === 'checked'
+        ? (b.dataset.checked ?? '').localeCompare(a.dataset.checked ?? '') || order(a) - order(b)
+        : order(a) - order(b));
+    let shown = 0;
+    for (const card of sorted) {
+      const ok = matches(card);
+      card.hidden = !ok;
+      if (ok) shown++;
+      list.append(card);
+    }
+    document.getElementById('count')!.textContent = String(shown);
+    document.getElementById('empty')!.hidden = shown > 0;
+
+    q.value = state.q;
+    for (const chip of chips) chip.setAttribute('aria-pressed', String(state[chip.dataset.filter as 'cat' | 'block'] === chip.dataset.value));
+    for (const s of selects) s.value = state[s.dataset.filter as 'tag' | 'grade' | 'depth'];
+    closed.setAttribute('aria-pressed', String(state.closed));
+    closed.textContent = state.closed ? '終了した募集を隠す' : '終了した募集も表示';
+    sort.value = state.sort;
+
+    const next = new URLSearchParams();
+    for (const key of ['q', 'cat', 'block', 'tag', 'grade', 'depth'] as const) if (state[key]) next.set(key, state[key]);
+    if (state.closed) next.set('closed', '1');
+    if (state.sort !== 'deadline') next.set('sort', state.sort);
+    history.replaceState(null, '', `${location.pathname}${next.size ? `?${next}` : ''}`);
+  }
+
+  q.addEventListener('input', () => { state.q = q.value; render(); });
+  for (const chip of chips) chip.addEventListener('click', () => {
+    state[chip.dataset.filter as 'cat' | 'block'] = chip.dataset.value!;
+    render();
+  });
+  for (const s of selects) s.addEventListener('change', () => {
+    state[s.dataset.filter as 'tag' | 'grade' | 'depth'] = s.value;
+    render();
+  });
+  closed.addEventListener('click', () => { state.closed = !state.closed; render(); });
+  sort.addEventListener('change', () => { state.sort = sort.value; render(); });
+  render();
+</script>

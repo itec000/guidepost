@@ -1,0 +1,101 @@
+---
+import Base from '../../layouts/Base.astro';
+import { DEPTH_HELP, SITE_NAME, url } from '../../lib/format.ts';
+import { RECHECK_DAYS } from '../../lib/derive.ts';
+---
+<Base title="このサイトについて" description="掲載の基準、体験の形の決め方、情報の更新とプライバシーについて。">
+  <main class="about section">
+    <h1>このサイトについて</h1>
+
+    <section>
+      <h2>どんなサイトか</h2>
+      <p>
+        {SITE_NAME}（仮称）は、高校生が参加できるコンテスト、大学のプログラム、インターン、ボランティアなどの
+        探究・体験の機会を、ひとつの場所で比べられるようにまとめたサイトです。
+        高校生の探究活動として運営しており、営利目的ではありません。
+      </p>
+      <p>
+        掲載している情報は、人が一件ずつ主催者のページなどで確認したものです。
+        申し込みは各主催者のページで行います。このサイトから申し込むことはできません。
+      </p>
+    </section>
+
+    <section id="confirm">
+      <h2>掲載の基準</h2>
+      <p>すべての項目に「情報のもと」のリンクと、最後に確認した日付を付けています。確認の区分は次の2つです。</p>
+      <dl>
+        <dt><span class="tag confirm-公式で確認">公式で確認</span></dt>
+        <dd>主催者自身のページ（募集要項の PDF を含む）で確認したもの。</dd>
+        <dt><span class="tag confirm-二次情報で確認">二次情報で確認</span></dt>
+        <dd>
+          主催者以外のページ（公募情報サイト、まとめサイト、ニュース記事など）で確認したもの。
+          主催者と日付が一致しているものだけを載せています。
+        </dd>
+      </dl>
+      <ul>
+        <li>参加費・宿泊・現地への参加が必要なものは、公式の情報で確認できたものだけを載せます。</li>
+        <li>情報がはっきりしないもの、資料によって内容が食い違うものは載せません。</li>
+        <li>確認した資料に書かれていなかった項目は「記載なし」と表示します。「ない」という意味ではありません。</li>
+      </ul>
+    </section>
+
+    <section id="depth">
+      <h2>体験の形</h2>
+      <p>どのくらい深く関われるかの目安として、次の3つがそろっているかを見ています。</p>
+      <ol>
+        <li><strong>成果物</strong>：発表・作品・報告など、自分で何かを形にするか</li>
+        <li><strong>指導者・メンター</strong>：自分の取り組みにアドバイスをくれる人がいるか（一回きりの講義の講師は含めません）</li>
+        <li><strong>1か月以上</strong>：参加が1か月以上続くか</li>
+      </ol>
+      <dl>
+        {(['体験', '実践', '深入', '判定不能'] as const).map((d) => (
+          <>
+            <dt>{d}</dt>
+            <dd>{DEPTH_HELP[d]}</dd>
+          </>
+        ))}
+      </dl>
+      <p>
+        公式の情報に書かれていない項目は「不明」とし、推測では決めません。
+        「不明」の扱い方で段階が変わってしまう場合は「判定不能」と表示します。
+        コンテストは公式の情報に指導体制や取り組む期間が書かれていないことが多いため、「判定不能」が多くなります。
+        段階はあくまで目安で、良し悪しを表すものではありません。
+      </p>
+    </section>
+
+    <section>
+      <h2>情報の更新</h2>
+      <ul>
+        <li>締切日を過ぎたものは自動で「募集終了」になり、検索では最初は表示されません（「終了した募集も表示」で見られます）。</li>
+        <li>最後の確認から{RECHECK_DAYS}日以上たったものには「要再確認」を表示します。</li>
+        <li>募集内容は変わることがあります。申し込む前に、必ず主催者のページで最新の情報を確認してください。</li>
+        <li>入試での活動実績の扱いは大学ごとに異なります。志望校の募集要項で確認してください。</li>
+      </ul>
+    </section>
+
+    <section id="privacy">
+      <h2>プライバシーについて</h2>
+      <ul>
+        <li>このサイトは、閲覧する人の個人情報を集めていません。登録・ログイン・問い合わせフォームはありません。</li>
+        <li>アクセス解析や広告のためのツール、Cookie は使っていません。</li>
+        <li>主催者などの外部サイトへのリンクを開いたあとは、そのサイトの方針に従います。</li>
+      </ul>
+    </section>
+
+    <p><a class="link" href={url('/search/')}>探究・体験の機会をさがす →</a></p>
+  </main>
+</Base>
+
+<style>
+  .about { max-width: 860px; gap: 36px; padding-top: 40px; }
+  h1 { font-size: 30px; }
+  section { display: flex; flex-direction: column; gap: 14px; }
+  h2 { font-size: 21px; padding-top: 8px; border-top: 1px solid var(--line); }
+  p, li, dd { font-size: 15px; line-height: 1.9; color: var(--ink-2); }
+  ul, ol { margin: 0; padding-left: 1.4em; }
+  dl { margin: 0; display: grid; grid-template-columns: max-content 1fr; gap: 10px 16px; align-items: baseline; }
+  dt { font-weight: 700; }
+  dd { margin: 0; }
+  @media (max-width: 560px) { dl { grid-template-columns: 1fr; gap: 4px; } dd { margin-bottom: 10px; } }
+  .link { color: var(--accent); font-weight: 700; }
+</style>

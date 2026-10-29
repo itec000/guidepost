@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.astro/
+
+# 表格の生データ（内部メモを含む）。公開リポジトリに入れない
+.cache/
+
+# サービスアカウントの鍵
+*.key.json
+.env
