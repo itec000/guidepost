@@ -73,6 +73,20 @@ import { RECHECK_DAYS } from '../../lib/derive.ts';
       </ul>
     </section>
 
+    <section id="bot">
+      <h2>掲載ページの自動確認について</h2>
+      <p>
+        掲載内容が古くならないよう、週に1回、掲載している項目の「情報のもと」と主催者のページを
+        プログラムで読み込み、変更やリンク切れがないかを確認しています。
+        見つかった変更は人が確認してから掲載内容に反映します。
+      </p>
+      <ul>
+        <li>User-Agent は <code>MichishirubeBot</code> です。</li>
+        <li>1ページずつ順番に、数秒以上の間隔をあけてアクセスします。各サイトの robots.txt に従います。</li>
+        <li>掲載しているページ以外を巡回したり、内容を転載したりすることはありません。</li>
+      </ul>
+    </section>
+
     <section id="privacy">
       <h2>プライバシーについて</h2>
       <ul>

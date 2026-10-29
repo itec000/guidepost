@@ -1,0 +1,44 @@
+# 掲載中の項目の出典・公式ページを確認し、表格の「チェック結果」タブに書く（scripts/monitor.ts）。
+# 「掲載データ」は変更しない。ログは誰でも見られるので、ID と結果の種類だけを出す。
+name: 掲載中の項目を確認
+
+on:
+  schedule:
+    - cron: '0 22 * * 0' # 毎週月曜 7:00（日本時間）
+  workflow_dispatch:
+    inputs:
+      all:
+        description: '前回からの日数に関係なく、すべての URL を確認する'
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: monitor
+  cancel-in-progress: false
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: User-Agent に載せる説明ページ
+        run: echo "MONITOR_INFO_URL=https://${GITHUB_REPOSITORY_OWNER,,}.github.io/${GITHUB_REPOSITORY#*/}/about/#bot" >> "$GITHUB_ENV"
+
+      - name: 確認して表格に書く
+        run: npm run monitor
+        env:
+          SHEET_ID: ${{ vars.SHEET_ID }}
+          GOOGLE_SERVICE_ACCOUNT_KEY: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_KEY }}
+          MONITOR_ALL: ${{ inputs.all && '1' || '' }}
