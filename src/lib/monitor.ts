@@ -116,6 +116,33 @@ export function parseResults(rows: Cell[][]): Map<string, ResultRow> {
 export const resultToCells = (r: ResultRow): string[] =>
   [r.id, r.name, r.kind, r.url, r.action, r.result, r.detail, r.checkedOn, r.memo, r.fingerprint];
 
+/** 列幅（px）。指紋は人が見るものではないので隠す。毎回そろえ直すので、手で変えた幅は次の確認で戻る */
+const COLUMN_WIDTHS = [48, 220, 84, 240, 64, 170, 440, 100, 220, 0];
+
+/** 「チェック結果」タブの見た目（Sheets API batchUpdate の requests） */
+export function formatRequests(tabId: number) {
+  const cols = (start: number, end = start + 1) => ({ sheetId: tabId, dimension: 'COLUMNS', startIndex: start, endIndex: end });
+  const cells = (startColumnIndex: number, endColumnIndex: number, startRowIndex = 0, endRowIndex?: number) =>
+    ({ sheetId: tabId, startColumnIndex, endColumnIndex, startRowIndex, ...(endRowIndex ? { endRowIndex } : {}) });
+  return [
+    { updateSheetProperties: { properties: { sheetId: tabId, gridProperties: { frozenRowCount: 1 } }, fields: 'gridProperties.frozenRowCount' } },
+    ...COLUMN_WIDTHS.map((px, i) => ({
+      updateDimensionProperties: {
+        range: cols(i),
+        properties: px ? { pixelSize: px, hiddenByUser: false } : { hiddenByUser: true },
+        fields: px ? 'pixelSize,hiddenByUser' : 'hiddenByUser',
+      },
+    })),
+    // 全体を上ぞろえ、名称・結果・詳細・対応メモは折り返す
+    { repeatCell: { range: cells(0, 10), cell: { userEnteredFormat: { verticalAlignment: 'TOP', wrapStrategy: 'CLIP' } }, fields: 'userEnteredFormat(verticalAlignment,wrapStrategy)' } },
+    ...[[1, 2], [5, 7], [8, 9]].map(([a, b]) => ({
+      repeatCell: { range: cells(a!, b!), cell: { userEnteredFormat: { wrapStrategy: 'WRAP' } }, fields: 'userEnteredFormat.wrapStrategy' },
+    })),
+    { repeatCell: { range: cells(4, 5), cell: { userEnteredFormat: { horizontalAlignment: 'CENTER' } }, fields: 'userEnteredFormat.horizontalAlignment' } },
+    { repeatCell: { range: cells(0, 10, 0, 1), cell: { userEnteredFormat: { textFormat: { bold: true }, backgroundColor: { red: 0.93, green: 0.94, blue: 0.96 } } }, fields: 'userEnteredFormat(textFormat.bold,backgroundColor)' } },
+  ];
+}
+
 /** 要対応を上に、あとは ID 順 */
 export function sortResults(rows: ResultRow[]): ResultRow[] {
   const num = (id: string) => (Number.isFinite(Number(id)) ? Number(id) : Infinity);

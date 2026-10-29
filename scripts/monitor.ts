@@ -13,7 +13,7 @@ import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { GoogleAuth } from 'google-auth-library';
 import { todayJst } from '../src/lib/derive.ts';
 import {
-  RESULT_HEADER, RESULT_SHEET, buildTargets, carryOver, decodeBody, fingerprintBytes, fingerprintLines,
+  RESULT_HEADER, RESULT_SHEET, buildTargets, formatRequests, carryOver, decodeBody, fingerprintBytes, fingerprintLines,
   htmlToLines, isDue, judge, parseResults, parseRobots, resultToCells, robotsAllows, sortResults, targetKey,
   type Cell, type FetchOutcome, type ResultRow, type RobotsRules, type Target,
 } from '../src/lib/monitor.ts';
@@ -52,27 +52,29 @@ type Client = Awaited<ReturnType<typeof sheetsClient>>;
 const api = (sheetId: string, path = '') => `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}${path}`;
 
 async function readSheet(client: Client, sheetId: string) {
-  const meta = await client.request<{ sheets: { properties: { title: string } }[] }>({
-    url: api(sheetId, '?fields=sheets.properties.title'),
+  const meta = await client.request<{ sheets: { properties: { title: string; sheetId: number } }[] }>({
+    url: api(sheetId, '?fields=sheets.properties(title,sheetId)'),
   });
-  const hasResults = meta.data.sheets.some((s) => s.properties.title === RESULT_SHEET);
+  const tabId = meta.data.sheets.find((s) => s.properties.title === RESULT_SHEET)?.properties.sheetId ?? null;
   const params = new URLSearchParams({ valueRenderOption: 'UNFORMATTED_VALUE', dateTimeRenderOption: 'SERIAL_NUMBER' });
   params.append('ranges', SOURCE_SHEET);
-  if (hasResults) params.append('ranges', RESULT_SHEET);
+  if (tabId !== null) params.append('ranges', RESULT_SHEET);
   const res = await client.request<{ valueRanges: { values?: Cell[][] }[] }>({ url: api(sheetId, `/values:batchGet?${params}`) });
   return {
     source: res.data.valueRanges[0]?.values ?? [],
-    results: hasResults ? res.data.valueRanges[1]?.values ?? [] : [],
-    hasResults,
+    results: tabId !== null ? res.data.valueRanges[1]?.values ?? [] : [],
+    tabId,
   };
 }
 
-async function writeSheet(client: Client, sheetId: string, rows: ResultRow[], hasResults: boolean) {
-  if (!hasResults) {
-    await client.request({
+async function writeSheet(client: Client, sheetId: string, rows: ResultRow[], existingTabId: number | null) {
+  let tabId = existingTabId;
+  if (tabId === null) {
+    const res = await client.request<{ replies: { addSheet: { properties: { sheetId: number } } }[] }>({
       url: api(sheetId, ':batchUpdate'), method: 'POST',
-      data: { requests: [{ addSheet: { properties: { title: RESULT_SHEET, gridProperties: { frozenRowCount: 1 } } } }] },
+      data: { requests: [{ addSheet: { properties: { title: RESULT_SHEET } } }] },
     });
+    tabId = res.data.replies[0]!.addSheet.properties.sheetId;
   }
   const range = encodeURIComponent(RESULT_SHEET);
   await client.request({ url: api(sheetId, `/values/${range}:clear`), method: 'POST' });
@@ -81,6 +83,7 @@ async function writeSheet(client: Client, sheetId: string, rows: ResultRow[], ha
     url: api(sheetId, `/values/${range}!A1?valueInputOption=RAW`), method: 'PUT',
     data: { values: [[...RESULT_HEADER], ...rows.map(resultToCells)] },
   });
+  await client.request({ url: api(sheetId, ':batchUpdate'), method: 'POST', data: { requests: formatRequests(tabId) } });
 }
 
 // ---------------------------------------------------------------- アクセス
@@ -234,7 +237,7 @@ async function main() {
   if (!sheetId) throw new Error('SHEET_ID が未設定');
   const today = todayJst();
   const client = await sheetsClient();
-  const { source, results, hasResults } = await readSheet(client, sheetId);
+  const { source, results, tabId } = await readSheet(client, sheetId);
 
   const targets = buildTargets(source, today);
   if (targets.length === 0) throw new Error('確認する URL が 1 件もない（「掲載データ」の読み取りに失敗した可能性）');
@@ -266,7 +269,7 @@ async function main() {
     await writeFile(RESULT_FILE, JSON.stringify(sorted, null, 2));
     console.log('MONITOR_DRY_RUN のため表格には書かず、.cache/monitor-result.json に保存');
   } else {
-    await writeSheet(client, sheetId, sorted, hasResults);
+    await writeSheet(client, sheetId, sorted, tabId);
     console.log(`表格の「${RESULT_SHEET}」タブを更新`);
   }
 }
