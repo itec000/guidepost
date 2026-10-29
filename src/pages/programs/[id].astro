@@ -44,7 +44,7 @@ const description = `${p.organizer}。${p.target}`.slice(0, 120);
     <span aria-current="page">{p.name}</span>
   </nav>
 
-  <main class="layout">
+  <div class="layout">
       <div class="head">
         <div class="badges">
           <span class={`tag cat-${p.category}`}>{p.category}</span>
@@ -122,7 +122,7 @@ const description = `${p.organizer}。${p.target}`.slice(0, 120);
         <span class={`tag confirm-${p.confirm}`} style="align-self:flex-start">{p.confirm}</span>
         <a class="link" href={url('/about/#confirm')}>確認の区分について</a>
       </div>
-  </main>
+  </div>
 
   {similar.length > 0 && (
     <section class="section">

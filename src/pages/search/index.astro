@@ -68,12 +68,12 @@ const categories = CATEGORIES.filter((c) => programs.some((p) => p.category === 
     </div>
   </div>
 
-  <main class="section results">
+  <div class="section results">
     <p id="empty" class="empty" hidden>条件に合う項目がありません。<br />条件をゆるめてみてください。</p>
     <div id="list" class="grid">
       {sorted.map((p, i) => <ProgramCard program={p} order={i} />)}
     </div>
-  </main>
+  </div>
 </Base>
 
 <style>
@@ -93,7 +93,7 @@ const categories = CATEGORIES.filter((c) => programs.some((p) => p.category === 
   }
   .selects, .result-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; font-size: 14px; font-weight: 700; }
   .selects label, .result-actions label { display: flex; align-items: center; gap: 8px; }
-  .help { color: var(--accent); font-weight: 500; }
+  .help { color: var(--accent); font-weight: 500; padding: 10px 0; }
   .result-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
   .count { font-size: 15px; color: #3a4558; }
   .count span { font-size: 22px; font-weight: 700; color: var(--ink); }
