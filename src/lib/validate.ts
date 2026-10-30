@@ -141,7 +141,10 @@ export function validateSheet(rows: Cell[][], today: string): ValidationResult {
     } else if (confirm === '未確認' || confirm === '矛盾あり') {
       add('error', 'confirm', `確認方法が「${confirm}」のため公開できない`);
     } else if (confirm && needsOfficial !== 'なし' && confirm !== '公式で確認') {
-      add('error', 'needsOfficial', `費用・宿泊・現地参加が「${needsOfficial ?? '空'}」のため、公式で確認しないと公開できない`);
+      add('error', 'needsOfficial',
+        needsOfficial === 'あり' ? '費用・宿泊・現地参加が「あり」のため、公式で確認しないと公開できない'
+        : needsOfficial === '不明' ? '費用・宿泊・現地参加が「不明」のため公開できない。公式ページで確かめて「あり」か「なし」を入れる'
+        : '費用・宿泊・現地参加が未入力のため公開できない');
     }
 
     // URL
