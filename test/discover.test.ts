@@ -27,7 +27,7 @@ test('一覧ページから詳細リンクを拾う', () => {
   const found = extractLinks(html, 'https://example.com/list', { link: /^https:\/\/example\.com\/articles\/\d+(\?.*)?$/ });
   assert.deepEqual(found.map((l) => [l.url, l.title]), [
     ['https://example.com/articles/12', '高校生の 探究 ボランティア&交流'],
-    ['https://example.com/articles/13?utm_source=top', '大学の夏の研究体験'],
+    ['https://example.com/articles/13', '大学の夏の研究体験'],
     ['https://example.com/articles/14', 'オンライン説明会のお知らせ'],
   ]);
   const onlyHigh = extractLinks(html, 'https://example.com/list', { link: /\/articles\/\d+/, include: /高校生|研究/ });
@@ -44,13 +44,28 @@ test('カード全体のリンクは見出しを名前に、画像だけなら a
   assert.deepEqual(found.map((l) => l.title), ['地域の清掃ボランティア', '高校生ビジネスコンテスト', '夏の研究体験プログラム']);
 });
 
+test('matchCard ならカードのタグや説明にも include を当てる', () => {
+  const html = `
+    <a href="/articles/1"><ul><li>中高生歓迎</li></ul><p class="m-panel__title">国際協力ワークショップ</p></a>
+    <a href="/articles/2"><p class="m-panel__title">社会人向けセミナー</p></a>`;
+  const opts = { link: /\/articles\/\d+$/, include: /中高生/ };
+  assert.deepEqual(extractLinks(html, 'https://example.com/', opts).length, 0);
+  assert.deepEqual(extractLinks(html, 'https://example.com/', { ...opts, matchCard: true }), [
+    { url: 'https://example.com/articles/1', title: '国際協力ワークショップ' },
+  ]);
+});
+
 test('RSS から拾う', () => {
   const rss = `<rss><channel><title>一覧</title><link>https://example.com/</link>
     <item><title><![CDATA[高校生デザインコンテスト２０２６]]></title><link>https://example.com/contest-2026/</link></item>
     <item><title>お知らせ &amp; 結果</title><link>https://example.com/news/1/</link></item>
+    <item><title>研究費「A&#038;B賞」</title><link>https://example.com/grant-2027/?utm_source=rss&#038;utm_medium=rss</link></item>
   </channel></rss>`;
   const found = extractLinks(rss, 'https://example.com/feed/', { link: /^https:\/\/example\.com\/[a-z0-9-]+-20\d\d\/$/, feed: true });
-  assert.deepEqual(found, [{ url: 'https://example.com/contest-2026/', title: '高校生デザインコンテスト2026' }]);
+  assert.deepEqual(found, [
+    { url: 'https://example.com/contest-2026/', title: '高校生デザインコンテスト2026' },
+    { url: 'https://example.com/grant-2027/', title: '研究費「A&B賞」' },
+  ]);
 });
 
 test('初回は記録だけ、2回目から新しいリンクを候補にする', () => {

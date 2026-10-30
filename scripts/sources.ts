@@ -9,7 +9,9 @@
 // 条件を満たさないので人が手で見るもの（運営ガイド参照）:
 //   東大 focus のイベント一覧（JavaScript 表示）、洋々LABO の課外活動検索（JavaScript 表示）、
 //   JSPS ひらめき☆ときめきサイエンス（一覧が PDF）、ボランティアプラットフォーム・国立青少年教育振興機構（アクセス拒否）、
-//   Peatix（検索ページは robots.txt で禁止）、JST STELLA の実施機関一覧（年1回でよい）、登竜門の HTML ページ（規約が厳しいので RSS だけ使う）
+//   Peatix（検索ページは robots.txt で禁止）、JST STELLA の実施機関一覧（年1回でよい）、登竜門の HTML ページ（規約が厳しいので RSS だけ使う）、
+//   東京都 Job EX 中高生職業体験（5月にまとめて募集。年1回でよい）、リコチャレのイベント一覧（リンク先が中継ページ）、
+//   connpass・Doorkeeper（robots.txt で禁止）、PR TIMES（件数が多すぎて週1回では大半を見落とす）
 import type { Source } from '../src/lib/discover.ts';
 
 export const SOURCES: Source[] = [
@@ -71,5 +73,65 @@ export const SOURCES: Source[] = [
     name: '東大 金曜特別講座',
     url: 'https://high-school.c.u-tokyo.ac.jp/',
     link: /^https:\/\/high-school\.c\.u-tokyo\.ac\.jp\/lecture_time\/\d{4}[sw]\.html$/,
+  },
+  // ---- 2026-10-30 追加（企業のプログラム・大学・研究発表・国際協力）
+  {
+    name: 'Qulii イベント（RSS）',
+    url: 'https://qulii.jp/event/feed/',
+    link: /^https:\/\/qulii\.jp\/event\/\d+$/,
+    exclude: /小学生のみ|小学生限定/,
+    feed: true,
+  },
+  {
+    // 長期のものは活動支援金が出ることがある（掲載前に詳細ページで確認）
+    name: 'PROJECT INDEX 高校生可',
+    url: 'https://www.project-index.jp/query?job_target%5B%5D=%E9%AB%98%E6%A0%A1%E7%94%9F',
+    link: /^https:\/\/www\.project-index\.jp\/intern\/\d+$/,
+    exclude: /募集終了/,
+    matchCard: true,
+  },
+  {
+    // 企業の職場・研究所見学（中高生の女子が対象）
+    name: 'Girls Meet STEM（RSS）',
+    url: 'https://gms.shinfdn.org/tour/feed/',
+    link: /^https:\/\/gms\.shinfdn\.org\/tour\/[A-Za-z0-9]{8}\/$/,
+    feed: true,
+  },
+  {
+    name: 'サイエンスキャッスル（RSS）',
+    url: 'https://castle.lne.st/feed/',
+    link: /^https:\/\/castle\.lne\.st\/(news|research-info|grants|science-castle-asia|teachers-info)\/(.+\/)?\d+\/$/,
+    exclude: /Philippines|採択チームが決定|発表者.*決定/,
+    feed: true,
+  },
+  {
+    // 研究・教育の会社の記事全体なので、中高生向けだけにしぼる
+    name: 'リバネス（RSS）',
+    url: 'https://lne.st/feed/',
+    link: /^https:\/\/lne\.st\/\d{4}\/\d{2}\/\d{2}\/[^/?#]+\/$/,
+    include: /中高|高校生|高専生/, // 「中高・高専生参加者募集」のような書き方もある
+    feed: true,
+  },
+  {
+    // サイドバーに同じ形の記事リンクが多いので、名前に「高校生」がないものは外す
+    name: '大学ジャーナル 高校生',
+    url: 'https://univ-journal.jp/tag/%E9%AB%98%E6%A0%A1%E7%94%9F/',
+    link: /^https:\/\/univ-journal\.jp\/\d+\/$/,
+    include: /高校生|中高生/,
+  },
+  {
+    name: '大学プレスセンター 高校生（RSS）',
+    url: 'https://www.u-presscenter.jp/tag/%e9%ab%98%e6%a0%a1%e7%94%9f/feed',
+    link: /^https:\/\/www\.u-presscenter\.jp\/article\/\d+$/,
+    exclude: /セレクション|入試説明|オープンキャンパス|フェスティバル/,
+    feed: true,
+  },
+  {
+    // 「中高生歓迎」はカードのタグにだけ書かれている
+    name: 'JICA PARTNER イベント・セミナー',
+    url: 'https://partner.jica.go.jp/Seminar/Search',
+    link: /^https:\/\/partner\.jica\.go\.jp\/Seminar\/Detail\/\d+$/,
+    include: /中高生|高校生/,
+    matchCard: true,
   },
 ];

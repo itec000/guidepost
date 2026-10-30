@@ -17,6 +17,8 @@ export interface Source {
   include?: RegExp;
   /** リンクの文字にこれが含まれるものは候補にしない（小学生限定など） */
   exclude?: RegExp;
+  /** include/exclude を名前ではなくリンクの中の文字全部（カードのタグ・説明など）に当てる */
+  matchCard?: boolean;
   /** 一覧ページではなく RSS を読む（サイトが自動チェック用に RSS を案内している場合） */
   feed?: boolean;
 }
@@ -55,7 +57,11 @@ export function normalizeUrl(raw: string): string {
 export const normalizeName = (s: string) => s.normalize('NFKC').toLowerCase().replace(/[\s・、。,.!！?？「」『』()（）【】\[\]"'"]/g, '');
 
 const ENTITY: Record<string, string> = { amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", nbsp: ' ' };
-const decodeAttr = (s: string) => s.replace(/&(\w+);/g, (all, e: string) => ENTITY[e.toLowerCase()] ?? all);
+const decodeAttr = (s: string) => s.replace(/&(#x[0-9a-f]+|#\d+|\w+);/gi, (all, e: string) => {
+  if (e[0] !== '#') return ENTITY[e.toLowerCase()] ?? all;
+  const code = e[1] === 'x' || e[1] === 'X' ? parseInt(e.slice(2), 16) : Number(e.slice(1));
+  return code > 0 && code <= 0x10ffff ? String.fromCodePoint(code) : all;
+});
 
 const plain = (html: string) => htmlToLines(`<p>${html}</p>`, { keepBoilerplate: true }).join(' ');
 
@@ -73,27 +79,45 @@ function linkTitle(inner: string): { title: string; quality: number } {
   return alt ? { title: decodeAttr(alt).normalize('NFKC').trim(), quality: 1 } : { title: '', quality: 0 };
 }
 
-const wanted = (source: Pick<Source, 'include' | 'exclude'>) => (l: FoundLink) =>
-  (!source.include || source.include.test(l.title)) && !(source.exclude && source.exclude.test(l.title));
+type Found = FoundLink & { quality: number; card: string };
+
+const wanted = (source: Pick<Source, 'include' | 'exclude'>) => (l: Found) =>
+  (!source.include || source.include.test(l.card)) && !(source.exclude && source.exclude.test(l.card));
+
+const done = (found: Map<string, Found>, source: Pick<Source, 'include' | 'exclude'>): FoundLink[] =>
+  [...found.values()].filter(wanted(source)).map(({ url, title }) => ({ url, title }));
+
+/** 候補に書く URL から utm_ パラメータ（アクセス解析用）を外す */
+function withoutTracking(raw: string): string {
+  try {
+    const u = new URL(raw);
+    for (const key of [...u.searchParams.keys()]) if (key.startsWith('utm_')) u.searchParams.delete(key);
+    return u.href;
+  } catch {
+    return raw;
+  }
+}
 
 /** 一覧ページから、条件に合う詳細ページへのリンクを順番どおりに拾う。同じ URL へのリンクが複数あれば、一番名前らしいものを使う */
-export function extractLinks(html: string, baseUrl: string, source: Pick<Source, 'link' | 'include' | 'exclude' | 'feed'>): FoundLink[] {
-  const found = new Map<string, FoundLink & { quality: number }>();
+export function extractLinks(
+  html: string, baseUrl: string, source: Pick<Source, 'link' | 'include' | 'exclude' | 'matchCard' | 'feed'>,
+): FoundLink[] {
+  const found = new Map<string, Found>();
   if (source.feed) {
     // RSS 2.0 の <item><title>…</title><link>…</link></item>
     const text = (s: string | undefined) => decodeAttr((s ?? '').replace(/^\s*<!\[CDATA\[([\s\S]*?)\]\]>\s*$/, '$1')).trim();
     for (const item of html.matchAll(/<item\b[\s\S]*?<\/item>/gi)) {
-      const url = text(item[0].match(/<link>([\s\S]*?)<\/link>/i)?.[1]);
+      const url = withoutTracking(text(item[0].match(/<link>([\s\S]*?)<\/link>/i)?.[1]));
       const title = text(item[0].match(/<title>([\s\S]*?)<\/title>/i)?.[1]).normalize('NFKC').slice(0, 200);
-      if (url && source.link.test(url) && !found.has(normalizeUrl(url))) found.set(normalizeUrl(url), { url, title, quality: 3 });
+      if (url && source.link.test(url) && !found.has(normalizeUrl(url))) found.set(normalizeUrl(url), { url, title, quality: 3, card: title });
     }
-    return [...found.values()].map(({ url, title }) => ({ url, title })).filter(wanted(source));
+    return done(found, source);
   }
   for (const m of html.matchAll(/<a\b[^>]*?\bhref\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+))[^>]*>([\s\S]*?)<\/a\s*>/gi)) {
     const href = decodeAttr(m[1] ?? m[2] ?? m[3] ?? '');
     let url: string;
     try {
-      url = new URL(href, baseUrl).href;
+      url = withoutTracking(new URL(href, baseUrl).href);
     } catch {
       continue;
     }
@@ -102,10 +126,13 @@ export function extractLinks(html: string, baseUrl: string, source: Pick<Source,
     const key = normalizeUrl(url);
     const before = found.get(key);
     if (!before || quality > before.quality || (quality === before.quality && title.length > before.title.length)) {
-      found.set(key, { url: before?.url ?? url, title: title.slice(0, 200), quality });
+      const card = source.matchCard ? `${before?.card ?? ''} ${plain(m[4] ?? '')}` : title;
+      found.set(key, { url: before?.url ?? url, title: title.slice(0, 200), quality, card });
+    } else if (source.matchCard) {
+      before.card += ` ${plain(m[4] ?? '')}`;
     }
   }
-  return [...found.values()].map(({ url, title }) => ({ url, title })).filter(wanted(source));
+  return done(found, source);
 }
 
 const linkHash = (url: string) => createHash('sha256').update(normalizeUrl(url)).digest('hex').slice(0, 10);
