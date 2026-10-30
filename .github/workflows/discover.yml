@@ -1,0 +1,38 @@
+# 発見元（scripts/sources.ts）の一覧ページを読み、新しいリンクを表格の「候補」タブに足す（scripts/discover.ts）。
+# 「掲載データ」「除外」は変更しない。ログは誰でも見られるので、発見元ごとの件数だけを出す。
+name: 新しい項目をさがす
+
+on:
+  schedule:
+    - cron: '30 22 * * 0' # 毎週月曜 7:30（日本時間）。掲載中の項目の確認のあと
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: monitor # 確認と同じサイトに同時にアクセスしないよう、順番に動かす
+  cancel-in-progress: false
+
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: User-Agent に載せる説明ページ
+        run: echo "MONITOR_INFO_URL=https://${GITHUB_REPOSITORY_OWNER,,}.github.io/${GITHUB_REPOSITORY#*/}/about/#bot" >> "$GITHUB_ENV"
+
+      - name: さがして「候補」に足す
+        run: npm run discover
+        env:
+          SHEET_ID: ${{ vars.SHEET_ID }}
+          GOOGLE_SERVICE_ACCOUNT_KEY: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_KEY }}
