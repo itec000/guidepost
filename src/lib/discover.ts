@@ -113,7 +113,9 @@ export function extractLinks(
     }
     return done(found, source);
   }
-  for (const m of html.matchAll(/<a\b[^>]*?\bhref\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+))[^>]*>([\s\S]*?)<\/a\s*>/gi)) {
+  // サイドバー・メニュー・フッターの「人気記事」などは毎回入れ替わり、新着と見分けられないので読まない
+  const body = html.replace(/<(aside|nav|footer)\b[\s\S]*?<\/\1\s*>/gi, ' ');
+  for (const m of body.matchAll(/<a\b[^>]*?\bhref\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+))[^>]*>([\s\S]*?)<\/a\s*>/gi)) {
     const href = decodeAttr(m[1] ?? m[2] ?? m[3] ?? '');
     let url: string;
     try {
@@ -122,7 +124,16 @@ export function extractLinks(
       continue;
     }
     if (!source.link.test(url)) continue;
-    const { title, quality } = linkTitle(m[4] ?? '');
+    let { title, quality } = linkTitle(m[4] ?? '');
+    if (quality < 2) {
+      // 中身が空のリンク（カード全体に重ねる作り）は aria-label か aria-labelledby の先の文字を名前にする
+      const open = m[0].slice(0, m[0].indexOf('>'));
+      const label = open.match(/\baria-label\s*=\s*["']([^"']+)["']/i)?.[1];
+      const ref = open.match(/\baria-labelledby\s*=\s*["']([^"'\s]+)/i)?.[1];
+      const target = ref ? body.match(new RegExp(`<(\\w+)\\b[^>]*\\bid\\s*=\\s*["']${ref.replace(/[^\w-]/g, '\\$&')}["'][^>]*>([\\s\\S]*?)</\\1\\s*>`, 'i'))?.[2] : undefined;
+      const text = label ? decodeAttr(label).normalize('NFKC').trim() : target ? plain(target) : '';
+      if (text) ({ title, quality } = { title: text, quality: 3 });
+    }
     const key = normalizeUrl(url);
     const before = found.get(key);
     if (!before || quality > before.quality || (quality === before.quality && title.length > before.title.length)) {

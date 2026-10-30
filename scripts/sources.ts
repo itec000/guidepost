@@ -11,6 +11,7 @@
 //   JSPS ひらめき☆ときめきサイエンス（一覧が PDF）、ボランティアプラットフォーム・国立青少年教育振興機構（アクセス拒否）、
 //   Peatix（検索ページは robots.txt で禁止）、JST STELLA の実施機関一覧（年1回でよい）、登竜門の HTML ページ（規約が厳しいので RSS だけ使う）、
 //   東京都 Job EX 中高生職業体験（5月にまとめて募集。年1回でよい）、リコチャレのイベント一覧（リンク先が中継ページ）、
+//   大学ジャーナル「高校生」タグ（GitHub Actions からは 403。月1回手で見る）、
 //   connpass・Doorkeeper（robots.txt で禁止）、PR TIMES（件数が多すぎて週1回では大半を見落とす）
 import type { Source } from '../src/lib/discover.ts';
 
@@ -111,13 +112,6 @@ export const SOURCES: Source[] = [
     link: /^https:\/\/lne\.st\/\d{4}\/\d{2}\/\d{2}\/[^/?#]+\/$/,
     include: /中高|高校生|高専生/, // 「中高・高専生参加者募集」のような書き方もある
     feed: true,
-  },
-  {
-    // サイドバーに同じ形の記事リンクが多いので、名前に「高校生」がないものは外す
-    name: '大学ジャーナル 高校生',
-    url: 'https://univ-journal.jp/tag/%E9%AB%98%E6%A0%A1%E7%94%9F/',
-    link: /^https:\/\/univ-journal\.jp\/\d+\/$/,
-    include: /高校生|中高生/,
   },
   {
     name: '大学プレスセンター 高校生（RSS）',

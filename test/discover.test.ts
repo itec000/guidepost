@@ -44,6 +44,17 @@ test('カード全体のリンクは見出しを名前に、画像だけなら a
   assert.deepEqual(found.map((l) => l.title), ['地域の清掃ボランティア', '高校生ビジネスコンテスト', '夏の研究体験プログラム']);
 });
 
+test('サイドバーのリンクは拾わず、中身が空のリンクは aria-labelledby の先を名前にする', () => {
+  const html = `
+    <main><div><a href="/articles/1" aria-labelledby="t1"></a><h3 id="t1">高校生の研究発表会</h3></div>
+    <a href="/articles/2" aria-label="夏のサイエンスキャンプ"><img alt=""></a></main>
+    <aside><a href="/articles/9">人気記事：入試の傾向</a></aside>`;
+  assert.deepEqual(extractLinks(html, 'https://example.com/', { link: /\/articles\/\d+$/ }), [
+    { url: 'https://example.com/articles/1', title: '高校生の研究発表会' },
+    { url: 'https://example.com/articles/2', title: '夏のサイエンスキャンプ' },
+  ]);
+});
+
 test('matchCard ならカードのタグや説明にも include を当てる', () => {
   const html = `
     <a href="/articles/1"><ul><li>中高生歓迎</li></ul><p class="m-panel__title">国際協力ワークショップ</p></a>
