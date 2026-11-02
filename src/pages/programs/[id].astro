@@ -3,7 +3,7 @@ import Base from '../../layouts/Base.astro';
 import ProgramCard from '../../components/ProgramCard.astro';
 import type { Program } from '../../lib/schema.ts';
 import {
-  CRITERIA, DEPTH_HELP, byDeadline, deadlineLabel, longDate, programs, url,
+  CRITERIA, DEPTH_HELP, byDeadline, deadlineLabel, longDate, programs, reportMailto, url,
 } from '../../lib/format.ts';
 
 export function getStaticPaths() {
@@ -35,6 +35,7 @@ const rows: [string, string | undefined][] = [
   ['選考', p.selection],
   ['応募の方法', p.route ?? undefined],
 ];
+const reportHref = reportMailto(p, new URL(Astro.url.pathname, Astro.site ?? Astro.url).href);
 const description = `${p.organizer}。${p.target}`.slice(0, 120);
 ---
 <Base title={p.name} description={description}>
@@ -122,6 +123,13 @@ const description = `${p.organizer}。${p.target}`.slice(0, 120);
         <span class={`tag confirm-${p.confirm}`} style="align-self:flex-start">{p.confirm}</span>
         <a class="link" href={url('/about/#confirm')}>確認の区分について</a>
       </div>
+
+      <div class="panel side report">
+        <h2 class="side-title">内容の誤りを見つけたら</h2>
+        <p class="small">日付や費用などが公式の情報と違っていたら、メールでお知らせください。</p>
+        <a class="link" href={reportHref}>この項目の誤りを報告する</a>
+        <a class="link" href={url('/about/#contact')}>お問い合わせについて</a>
+      </div>
   </div>
 
   {similar.length > 0 && (
@@ -139,15 +147,16 @@ const description = `${p.organizer}。${p.target}`.slice(0, 120);
   .layout {
     padding: 24px var(--gutter) 16px; display: grid; gap: 24px 32px; align-items: start;
     grid-template-columns: minmax(0, 1fr) 320px;
-    grid-template-areas: 'head apply' 'content apply' 'content source' 'content .';
+    grid-template-areas: 'head apply' 'content apply' 'content source' 'content report' 'content .';
   }
   @media (max-width: 960px) {
-    .layout { grid-template-columns: minmax(0, 1fr); grid-template-areas: 'head' 'apply' 'content' 'source'; }
+    .layout { grid-template-columns: minmax(0, 1fr); grid-template-areas: 'head' 'apply' 'content' 'source' 'report'; }
   }
   .head { grid-area: head; }
   .apply { grid-area: apply; }
   .content { grid-area: content; min-width: 0; display: flex; flex-direction: column; gap: 24px; }
   .source { grid-area: source; }
+  .report { grid-area: report; }
   .head { display: flex; flex-direction: column; gap: 14px; }
   .badges { display: flex; flex-wrap: wrap; gap: 8px; }
   h1 { font-size: 30px; line-height: 1.45; }

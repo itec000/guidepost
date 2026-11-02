@@ -3,11 +3,26 @@ import type { Program } from './schema.ts';
 import data from '../data/programs.json';
 
 export const SITE_NAME = 'ミチシルベ';
+// 仮のアドレス（example.com は予約ドメインで、届かない）。正式な連絡先が決まったらここだけ差し替える。
+export const CONTACT_EMAIL = 'contact@example.com';
 export const generatedOn: string = data.generatedOn;
 export const programs = data.programs as Program[];
 
 /** base（GitHub Pages のリポジトリ名）を付けたパス */
 export const url = (path: string) => `${import.meta.env.BASE_URL.replace(/\/$/, '')}${path}`;
+
+/** 誤りの報告用 mailto（件名と本文に項目名・ページを入れておく） */
+export function reportMailto(p: Pick<Program, 'id' | 'name'>, pageUrl: string): string {
+  const subject = `【誤りの報告】${p.name}`;
+  const body = `項目：${p.name}
+ページ：${pageUrl}
+
+誤っている点（どこが、どう違うか）：
+
+正しい情報のページ（わかれば）：
+`;
+  return `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+}
 
 const WEEKDAYS = ['日', '月', '火', '水', '木', '金', '土'];
 

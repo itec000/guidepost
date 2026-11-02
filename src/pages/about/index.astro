@@ -1,6 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
-import { DEPTH_HELP, SITE_NAME, url } from '../../lib/format.ts';
+import { CONTACT_EMAIL, DEPTH_HELP, SITE_NAME, url } from '../../lib/format.ts';
 import { RECHECK_DAYS } from '../../lib/derive.ts';
 ---
 <Base title="このサイトについて" description="掲載の基準、体験の形の決め方、情報の更新とプライバシーについて。">
@@ -83,16 +83,37 @@ import { RECHECK_DAYS } from '../../lib/derive.ts';
       </p>
       <ul>
         <li>User-Agent は <code>MichishirubeBot</code> です。</li>
+        <li>アクセスについてのご連絡は、<a class="link" href="#contact">お問い合わせ</a>までお願いします。</li>
         <li>1ページずつ順番に、数秒以上の間隔をあけてアクセスします。各サイトの robots.txt に従います。</li>
         <li>読むのは掲載中の項目のページと、決めた一覧ページだけです。サイト全体を巡回したり、内容を転載したりすることはありません。</li>
         <li>利用規約で自動的な収集が禁止されているサイトは、プログラムでは読みません。</li>
       </ul>
     </section>
 
+    <section id="contact">
+      <h2>お問い合わせ</h2>
+      <p>次のようなご連絡は、メールで受け付けています。</p>
+      <ul>
+        <li>掲載内容の誤りのご指摘（各項目のページから、項目名つきで送れます）</li>
+        <li>主催者・運営者の方からの、掲載内容の訂正や掲載の取り下げのご依頼</li>
+        <li>このサイトの自動確認によるアクセスについてのご連絡</li>
+        <li>著作権・その他の権利に関するご連絡</li>
+      </ul>
+      <p>
+        連絡先：<a class="link" href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
+      </p>
+      <p>
+        運営は高校生が一人で行っているため、お返事までにお時間をいただくことがあります。
+        取り下げのご依頼は、内容を確認できしだい、まず掲載を止めます。
+        お送りいただいたメールの内容は、対応のためだけに使います。
+      </p>
+    </section>
+
     <section id="privacy">
       <h2>プライバシーについて</h2>
       <ul>
-        <li>このサイトは、閲覧する人の個人情報を集めていません。登録・ログイン・問い合わせフォームはありません。</li>
+        <li>このサイトは、閲覧する人の個人情報を集めていません。登録・ログインはありません。
+          お問い合わせはメールで受け付けており、そのやりとりのほかに個人情報は集めていません。</li>
         <li>アクセス解析や広告のためのツール、Cookie は使っていません。</li>
         <li>主催者などの外部サイトへのリンクを開いたあとは、そのサイトの方針に従います。</li>
       </ul>
