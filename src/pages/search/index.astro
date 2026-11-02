@@ -73,6 +73,7 @@ const categories = CATEGORIES.filter((c) => programs.some((p) => p.category === 
     <div id="list" class="grid">
       {sorted.map((p, i) => <ProgramCard program={p} order={i} />)}
     </div>
+    <nav id="pager" class="pager" aria-label="ページ送り" hidden></nav>
   </div>
 </Base>
 
@@ -98,6 +99,9 @@ const categories = CATEGORIES.filter((c) => programs.some((p) => p.category === 
   .count { font-size: 15px; color: #3a4558; }
   .count span { font-size: 22px; font-weight: 700; color: var(--ink); }
   .results { padding-top: 20px; }
+  .pager { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 8px; margin-top: 32px; }
+  .pager .chip[disabled] { opacity: 0.4; cursor: default; }
+  .pager .gap { color: var(--muted); padding: 0 2px; }
   .empty {
     background: var(--surface); border: 1px dashed var(--line-input); border-radius: var(--radius);
     padding: 48px 16px; text-align: center; color: var(--muted); line-height: 1.8;
@@ -105,7 +109,8 @@ const categories = CATEGORIES.filter((c) => programs.some((p) => p.category === 
 </style>
 
 <script>
-  type State = { q: string; cat: string; block: string; tag: string; grade: string; depth: string; closed: boolean; sort: string };
+  type State = { q: string; cat: string; block: string; tag: string; grade: string; depth: string; closed: boolean; sort: string; page: number };
+  const PAGE_SIZE = 12;
   const list = document.getElementById('list')!;
   const cards = [...list.querySelectorAll<HTMLElement>('.program-card')];
   const params = new URLSearchParams(location.search);
@@ -118,6 +123,7 @@ const categories = CATEGORIES.filter((c) => programs.some((p) => p.category === 
     depth: params.get('depth') ?? '',
     closed: params.get('closed') === '1',
     sort: params.get('sort') === 'checked' ? 'checked' : 'deadline',
+    page: Math.max(1, Number.parseInt(params.get('p') ?? '1', 10) || 1),
   };
 
   const q = document.getElementById('q') as HTMLInputElement;
@@ -146,15 +152,19 @@ const categories = CATEGORIES.filter((c) => programs.some((p) => p.category === 
       state.sort === 'checked'
         ? (b.dataset.checked ?? '').localeCompare(a.dataset.checked ?? '') || order(a) - order(b)
         : order(a) - order(b));
-    let shown = 0;
+    const hits = sorted.filter(matches);
+    const pages = Math.max(1, Math.ceil(hits.length / PAGE_SIZE));
+    state.page = Math.min(state.page, pages);
+    const start = (state.page - 1) * PAGE_SIZE;
+    const onPage = new Set(hits.slice(start, start + PAGE_SIZE));
     for (const card of sorted) {
-      const ok = matches(card);
-      card.hidden = !ok;
-      if (ok) shown++;
+      card.hidden = !onPage.has(card);
       list.append(card);
     }
+    const shown = hits.length;
     document.getElementById('count')!.textContent = String(shown);
     document.getElementById('empty')!.hidden = shown > 0;
+    renderPager(pages);
 
     q.value = state.q;
     for (const chip of chips) chip.setAttribute('aria-pressed', String(state[chip.dataset.filter as 'cat' | 'block'] === chip.dataset.value));
@@ -167,19 +177,61 @@ const categories = CATEGORIES.filter((c) => programs.some((p) => p.category === 
     for (const key of ['q', 'cat', 'block', 'tag', 'grade', 'depth'] as const) if (state[key]) next.set(key, state[key]);
     if (state.closed) next.set('closed', '1');
     if (state.sort !== 'deadline') next.set('sort', state.sort);
+    if (state.page > 1) next.set('p', String(state.page));
     history.replaceState(null, '', `${location.pathname}${next.size ? `?${next}` : ''}`);
   }
 
-  q.addEventListener('input', () => { state.q = q.value; render(); });
+  const pager = document.getElementById('pager')!;
+  function pageButton(label: string, page: number, opts: { current?: boolean; disabled?: boolean; aria?: string } = {}) {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'chip';
+    b.textContent = label;
+    if (opts.aria) b.setAttribute('aria-label', opts.aria);
+    if (opts.current) b.setAttribute('aria-current', 'page');
+    b.setAttribute('aria-pressed', String(Boolean(opts.current)));
+    b.disabled = Boolean(opts.disabled);
+    b.addEventListener('click', () => {
+      state.page = page;
+      render();
+      document.querySelector('.results')!.scrollIntoView({ block: 'start' });
+    });
+    return b;
+  }
+  function renderPager(pages: number) {
+    pager.replaceChildren();
+    pager.hidden = pages <= 1;
+    if (pages <= 1) return;
+    pager.append(pageButton('前へ', state.page - 1, { disabled: state.page === 1, aria: '前のページ' }));
+    // 最初・最後・現在の前後だけ番号を出し、間は … にする
+    const shownPages = [...Array(pages).keys()].map((i) => i + 1)
+      .filter((n) => n === 1 || n === pages || Math.abs(n - state.page) <= 1);
+    let prev = 0;
+    for (const n of shownPages) {
+      if (n - prev > 1) {
+        const gap = document.createElement('span');
+        gap.className = 'gap';
+        gap.textContent = '…';
+        pager.append(gap);
+      }
+      pager.append(pageButton(String(n), n, { current: n === state.page, aria: `${n}ページ目` }));
+      prev = n;
+    }
+    pager.append(pageButton('次へ', state.page + 1, { disabled: state.page === pages, aria: '次のページ' }));
+  }
+
+  q.addEventListener('input', () => { state.q = q.value; state.page = 1; render(); });
   for (const chip of chips) chip.addEventListener('click', () => {
     state[chip.dataset.filter as 'cat' | 'block'] = chip.dataset.value!;
+    state.page = 1;
     render();
   });
   for (const s of selects) s.addEventListener('change', () => {
     state[s.dataset.filter as 'tag' | 'grade' | 'depth'] = s.value;
+    state.page = 1;
     render();
   });
-  closed.addEventListener('click', () => { state.closed = !state.closed; render(); });
-  sort.addEventListener('change', () => { state.sort = sort.value; render(); });
+  closed.addEventListener('click', () => { state.closed = !state.closed; state.page = 1; render(); });
+  sort.addEventListener('change', () => { state.sort = sort.value; state.page = 1; render(); });
   render();
 </script>
