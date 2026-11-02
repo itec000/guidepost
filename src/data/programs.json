@@ -735,6 +735,192 @@
    "officialUrl": "https://blastbeat.jp/",
    "lastChecked": "2026-10-28",
    "needsRecheck": false
+  },
+  {
+   "id": 32,
+   "category": "インターン",
+   "name": "生命保険会社の理工系のお仕事とは？明治安田オフィスツアー（Girls Meet STEM）",
+   "organizer": "明治安田生命保険相互会社（Girls Meet STEM：公益財団法人山田進太郎D&I財団）",
+   "tags": [
+    "数学・情報",
+    "ビジネス・起業"
+   ],
+   "grades": [
+    "中学生",
+    "高1",
+    "高2",
+    "高3"
+   ],
+   "target": "中学1年生～高校3年生までの戸籍上または性自認が女性の方。保護者同伴不可",
+   "period": "2026-12-22 9:30〜11:45（1回）",
+   "deadlineText": "46364",
+   "deadline": "2026-12-08",
+   "status": "open",
+   "cost": "記載なし",
+   "area": "明治安田生命本社ビル（東京都千代田区丸の内2-1-1）",
+   "region": "東京都",
+   "regionBlock": "関東",
+   "selection": "定員30名。応募が定員を超えた場合は抽選",
+   "route": "公式ページに記載なし",
+   "depth": "体験",
+   "depthCriteria": {
+    "hasOutput": "なし",
+    "hasMentor": "なし",
+    "overMonth": "なし"
+   },
+   "confirm": "公式で確認",
+   "sourceUrl": "https://gms.shinfdn.org/tour/k1HhLeTr/",
+   "officialUrl": null,
+   "lastChecked": "2026-11-02",
+   "needsRecheck": false
+  },
+  {
+   "id": 33,
+   "category": "大学プログラム",
+   "name": "ステンドグラスづくりを通して学ぶ！ものづくりの科学と女子学生との交流会（Girls Meet STEM）",
+   "organizer": "大阪大学接合科学研究所（Girls Meet STEM：公益財団法人山田進太郎D&I財団）",
+   "tags": [
+    "科学・研究"
+   ],
+   "grades": [
+    "中学生",
+    "高1",
+    "高2",
+    "高3"
+   ],
+   "target": "中学1年生～高校3年生までの戸籍上または性自認が女性の方。保護者同伴不可",
+   "period": "2026-12-12 13:00〜16:00（1回）",
+   "deadlineText": "46353",
+   "deadline": "2026-11-27",
+   "status": "open",
+   "cost": "記載なし",
+   "area": "大阪大学接合科学研究所 本館（大阪府茨木市美穂ケ丘11-1）",
+   "region": "大阪府",
+   "regionBlock": "関西",
+   "selection": "定員10名。応募が定員を超えた場合は抽選",
+   "route": "公式ページに記載なし",
+   "depth": "判定不能",
+   "depthCriteria": {
+    "hasOutput": "あり",
+    "hasMentor": "不明",
+    "overMonth": "なし"
+   },
+   "confirm": "公式で確認",
+   "sourceUrl": "https://gms.shinfdn.org/tour/5Ab5Lsp5/",
+   "officialUrl": null,
+   "lastChecked": "2026-11-02",
+   "needsRecheck": false
+  },
+  {
+   "id": 34,
+   "category": "大学プログラム",
+   "name": "OSAKA SDGs チャレンジ 3daysプロジェクト",
+   "organizer": "大阪府 政策企画部 企画室連携課",
+   "tags": [
+    "社会課題・政策",
+    "地域・まちづくり"
+   ],
+   "grades": [
+    "高1",
+    "高2",
+    "高3"
+   ],
+   "target": "社会課題解決に関心のある大学生を中心とした若者（高校生等を含む）",
+   "period": "2026-11-21 13:00〜16:00（梅田）／2026-12-08 19:00〜21:00（オンライン）／2027-01-17 13:00〜16:00（梅田）",
+   "deadlineText": "46331",
+   "deadline": "2026-11-05",
+   "status": "open",
+   "cost": "受講料は無料。研修にかかる交通費・オンライン受講の通信費は受講者負担",
+   "area": "NSE貸会議室梅田店（大阪市北区曽根崎2-5-10 梅田パシフィックビル5階）。2日目はオンライン",
+   "region": "大阪府（一部オンライン）",
+   "regionBlock": "関西",
+   "selection": "申込フォームの入力内容をもとに選考（40名程度）。結果は11月9日ごろに通知",
+   "route": "個人で応募",
+   "depth": "判定不能",
+   "depthCriteria": {
+    "hasOutput": "不明",
+    "hasMentor": "不明",
+    "overMonth": "あり"
+   },
+   "confirm": "公式で確認",
+   "sourceUrl": "https://www.pref.osaka.lg.jp/o020050/renkei/sdgs/volunteer.html",
+   "officialUrl": null,
+   "lastChecked": "2026-11-02",
+   "needsRecheck": false
+  },
+  {
+   "id": 35,
+   "category": "大学プログラム",
+   "name": "グローバル人材育成プログラム「GOAL」第34回（オンライン）",
+   "organizer": "株式会社アレックスソリューションズ",
+   "tags": [
+    "国際・協力",
+    "社会課題・政策"
+   ],
+   "grades": [
+    "高1",
+    "高2",
+    "高3"
+   ],
+   "target": "高校生、大学生、大学院生、社会人、SDGsに興味がある方。意思疎通ができるレベルの英語力が必要",
+   "period": "2026-11-28〜12-19の毎週土曜（計4日）17:00〜21:00。オリエンテーション 11/27 19:30〜21:00",
+   "deadlineText": "46345",
+   "deadline": "2026-11-19",
+   "status": "open",
+   "cost": "無料",
+   "area": "オンライン",
+   "region": "オンライン",
+   "regionBlock": "オンライン",
+   "selection": "説明会（11/12 20:00〜）に参加→参加希望フォーム（11/19 24:00まで）→運営が選考。募集4〜10名（最小催行2名）",
+   "route": "個人で応募",
+   "depth": "判定不能",
+   "depthCriteria": {
+    "hasOutput": "あり",
+    "hasMentor": "不明",
+    "overMonth": "なし"
+   },
+   "confirm": "公式で確認",
+   "sourceUrl": "https://alexsol.co.jp/goal/1908/",
+   "officialUrl": "https://alexsol.co.jp/goal/",
+   "lastChecked": "2026-11-02",
+   "needsRecheck": false
+  },
+  {
+   "id": 36,
+   "category": "大学プログラム",
+   "name": "高校生国際協力実体験プログラム2026（茨城県）",
+   "organizer": "独立行政法人国際協力機構（JICA筑波）",
+   "tags": [
+    "国際・協力",
+    "社会課題・政策"
+   ],
+   "grades": [
+    "高1",
+    "高2",
+    "高3"
+   ],
+   "target": "茨城県の高校生。原則として1校につき生徒4名まで、引率者1名の参加",
+   "period": "2026-12-19 9:00〜16:00（1日）",
+   "deadlineText": "46345",
+   "deadline": "2026-11-19",
+   "status": "open",
+   "cost": "会場までの交通費は自己負担（参加費は記載なし）",
+   "area": "JICA筑波（茨城県つくば市高野台3-6）",
+   "region": "茨城県",
+   "regionBlock": "関東",
+   "selection": "定員40名程度（先着順）。定員に達し次第終了",
+   "route": "学校経由",
+   "depth": "判定不能",
+   "depthCriteria": {
+    "hasOutput": "不明",
+    "hasMentor": "不明",
+    "overMonth": "なし"
+   },
+   "confirm": "公式で確認",
+   "sourceUrl": "https://www.jica.go.jp/domestic/tsukuba/information/event/1586680_23964.html",
+   "officialUrl": null,
+   "lastChecked": "2026-11-02",
+   "needsRecheck": false
   }
  ]
 }
