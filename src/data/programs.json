@@ -1,5 +1,5 @@
 {
- "generatedOn": "2026-11-19",
+ "generatedOn": "2026-11-20",
  "programs": [
   {
    "id": 2,
@@ -866,7 +866,7 @@
    "period": "2026-11-28〜12-19の毎週土曜（計4日）17:00〜21:00。オリエンテーション 11/27 19:30〜21:00",
    "deadlineText": "46345",
    "deadline": "2026-11-19",
-   "status": "open",
+   "status": "closed",
    "cost": "無料",
    "area": "オンライン",
    "region": "オンライン",
@@ -903,7 +903,7 @@
    "period": "2026-12-19 9:00〜16:00（1日）",
    "deadlineText": "46345",
    "deadline": "2026-11-19",
-   "status": "open",
+   "status": "closed",
    "cost": "会場までの交通費は自己負担（参加費は記載なし）",
    "area": "JICA筑波（茨城県つくば市高野台3-6）",
    "region": "茨城県",
